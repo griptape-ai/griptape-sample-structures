@@ -12,3 +12,6 @@ Once logged in, you can [create a structure from a sample](https://cloud.griptap
 
 ## Table of Contents
 
+// TODO AFTER PROD PUSH:
+- Update URLs to prod from Staging
+

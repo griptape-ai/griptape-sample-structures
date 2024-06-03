@@ -1,0 +1,1 @@
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud-staging.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-webscraper-researcher/structure.py&name=Griptape%20Webscraper%20Researcher)
