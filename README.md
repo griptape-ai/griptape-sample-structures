@@ -12,6 +12,7 @@ Once logged in, you can [create a structure from a sample](https://cloud.griptap
 
 ## Table of Contents
 
-// TODO AFTER PROD PUSH:
-- Update URLs to prod from Staging
-
+| Sample | Folder |
+| -------- | ------- |
+| Griptape Webscraper  | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-webscraper-researcher) |
+| Langchain Calculator | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/langchain-calculator) |
