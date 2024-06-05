@@ -1,0 +1,4 @@
+griptape
+python-dotenv
+boto3
+unstructured
