@@ -10,9 +10,7 @@ from griptape.events import FinishStructureRunEvent
 from griptape.drivers import GriptapeCloudEventListenerDriver
 
 from dotenv import load_dotenv
-from urllib.parse import urljoin
 import os
-import requests
 
 load_dotenv()
 
@@ -55,8 +53,6 @@ chain = llm_with_tools | call_tools
 input = "What's 23 times 7, and what's five times 18 and add a million plus a billion and cube thirty-seven"
 result = chain.invoke(input)
 
-print(result)
-
 task_input = TextArtifact(value=input)
 task_output = TextArtifact(value=result)
 done_event = FinishStructureRunEvent(
@@ -68,13 +64,4 @@ event_driver = GriptapeCloudEventListenerDriver(
     api_key=api_key
 )
 
-event_driver.publish_event(done_event)
-
-structure_run_id = os.getenv("GT_CLOUD_STRUCTURE_RUN_ID")
-base_url = os.getenv("GT_CLOUD_BASE_URL")
-url = urljoin(base_url, f"/api/structure-runs/{structure_run_id}/events")
-
-header_body=f"Bearer {api_key}"
-headers = {"Authorization":header_body}
-response = requests.post(url=url, json=done_event.to_dict(), headers=headers)
-print(response)
+event_driver.publish_event(done_event, flush=True)
