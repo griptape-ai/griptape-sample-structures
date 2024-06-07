@@ -65,22 +65,23 @@ def generate_text_artifacts(s3_uri, event_driver: Optional[GriptapeCloudEventLis
 
     loader = CsvLoader()
 
-    chunked_text_artifacts = loader.load(load_file(key))
+    csv_row_artifacts = loader.load(load_file(key))
 
-    for chunked_text_artifact in chunked_text_artifacts:
+    for csv_row_artifact in csv_row_artifacts:
         video_url_column_name = "Showreel"
-        video_urls_string = chunked_text_artifact.value[video_url_column_name]
+        video_urls_string = csv_row_artifact.value[video_url_column_name]
         if video_urls_string:
             video_urls = video_urls_string.split(",")
             for video_url in video_urls:
                 print(f"Showreel URL: {video_url.strip()}")
                 # TODO: Call Collin's structure(s)
                 video_description = "Llamas with Hats"
-                chunked_text_artifact.value["Showreel Description"] = video_description
+                csv_row_artifact.value["Showreel Description"] = video_description
+        print(csv_row_artifact)
 
     task_input = TextArtifact(value=None)
     done_event = FinishStructureRunEvent(
-        output_task_input=task_input, output_task_output=ListArtifact(chunked_text_artifacts)
+        output_task_input=task_input, output_task_output=ListArtifact(csv_row_artifacts)
     )
 
     if event_driver:
