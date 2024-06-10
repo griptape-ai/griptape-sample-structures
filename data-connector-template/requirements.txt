@@ -1,2 +1,2 @@
-griptape[all]
+griptape[drivers-web-scraper-markdownify]
 python-dotenv
