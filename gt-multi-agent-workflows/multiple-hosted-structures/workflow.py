@@ -1,15 +1,8 @@
 import os
 
-from griptape.drivers import WebhookEventListenerDriver, LocalStructureRunDriver, GriptapeCloudStructureRunDriver
-from griptape.events import EventListener, FinishStructureRunEvent
-from griptape.rules import Rule, Ruleset
-from griptape.structures import Agent, Workflow
+from griptape.drivers import GriptapeCloudStructureRunDriver
+from griptape.structures import Workflow
 from griptape.tasks import PromptTask, StructureRunTask
-from griptape.tools import (
-    TaskMemoryClient,
-    WebScraper,
-    WebSearch,
-)
 
 WRITERS = [
     {
@@ -51,6 +44,9 @@ if __name__ == "__main__":
         [
             StructureRunTask(
                 (
+                    writer["role"],
+                    writer["goal"],
+                    writer["backstory"],
                     """Using insights provided, develop an engaging blog
                 post that highlights the most significant AI advancements.
                 Your post should be informative yet accessible, catering to a tech-savvy audience.

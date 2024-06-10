@@ -1,10 +1,8 @@
 import os
+import sys
 
-from griptape.drivers import WebhookEventListenerDriver, LocalStructureRunDriver
-from griptape.events import EventListener, FinishStructureRunEvent
 from griptape.rules import Rule, Ruleset
-from griptape.structures import Agent, Workflow
-from griptape.tasks import PromptTask, StructureRunTask
+from griptape.structures import Agent
 from griptape.tools import (
     TaskMemoryClient,
     WebScraper,
@@ -64,3 +62,7 @@ def build_researcher():
     )
 
     return researcher
+
+if __name__ == "__main__":
+    agent = build_researcher()
+    agent.run(sys.argv[1])

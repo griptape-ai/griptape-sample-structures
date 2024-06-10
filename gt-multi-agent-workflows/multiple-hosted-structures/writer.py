@@ -1,16 +1,10 @@
 import os
 import sys
 
-from griptape.drivers import WebhookEventListenerDriver, LocalStructureRunDriver
+from griptape.drivers import WebhookEventListenerDriver
 from griptape.events import EventListener, FinishStructureRunEvent
 from griptape.rules import Rule, Ruleset
-from griptape.structures import Agent, Workflow
-from griptape.tasks import PromptTask, StructureRunTask
-from griptape.tools import (
-    TaskMemoryClient,
-    WebScraper,
-    WebSearch,
-)
+from griptape.structures import Agent
 
 def build_writer(role: str, goal: str, backstory: str):
     """Builds a Writer Structure.
@@ -66,4 +60,4 @@ def build_writer(role: str, goal: str, backstory: str):
 
 if __name__ == "__main__":
     agent = build_writer(sys.argv[1], sys.argv[2], sys.argv[3])
-    agent.run()
+    agent.run(sys.argv[4])
