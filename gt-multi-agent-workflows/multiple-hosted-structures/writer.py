@@ -1,7 +1,7 @@
 import os
 import sys
 
-from griptape.drivers import WebhookEventListenerDriver
+from griptape.drivers import WebhookEventListenerDriver, GriptapeCloudEventListenerDriver
 from griptape.events import EventListener, FinishStructureRunEvent
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
@@ -19,8 +19,8 @@ def build_writer(role: str, goal: str, backstory: str):
         event_listeners=[
             EventListener(
                 event_types=[FinishStructureRunEvent],
-                driver=WebhookEventListenerDriver(
-                    webhook_url=os.environ["WEBHOOK_URL"],
+                driver=GriptapeCloudEventListenerDriver(
+                    api_key=os.environ["GT_CLOUD_API_KEY"],
                 ),
             )
         ],
