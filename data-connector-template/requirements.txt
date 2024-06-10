@@ -1,2 +1,2 @@
-griptape
+griptape[all]
 python-dotenv
