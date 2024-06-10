@@ -59,12 +59,10 @@ if __name__ == "__main__":
                 Insights:
                 {{ parent_outputs["research"] }}""",
                 ),
-                driver=LocalStructureRunDriver(
-                    structure_factory_fn=lambda: build_writer(
-                        role=writer["role"],
-                        goal=writer["goal"],
-                        backstory=writer["backstory"],
-                    )
+                driver=GriptapeCloudStructureRunDriver(
+                    api_key=os.environ["GT_CLOUD_API_KEY"],
+                    structure_id=os.environ["GT_WRITER_STRUCTURE_ID"],
+                    async_run=True
                 ),
             )
             for writer in WRITERS
