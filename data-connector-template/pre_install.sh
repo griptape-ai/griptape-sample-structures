@@ -1,4 +1,4 @@
 #!/bin/bash
 
-apt-get update && apt-get update
-apt-get install g++ cmake
+apt-get update -y
+apt-get install -y g++ cmake
