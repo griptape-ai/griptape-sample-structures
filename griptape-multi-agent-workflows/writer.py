@@ -1,7 +1,7 @@
 import os
 import sys
 
-from griptape.drivers import WebhookEventListenerDriver, GriptapeCloudEventListenerDriver
+from griptape.drivers import GriptapeCloudEventListenerDriver
 from griptape.events import EventListener, FinishStructureRunEvent
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
