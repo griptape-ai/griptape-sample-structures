@@ -11,19 +11,30 @@ By splitting up our workloads across multiple Structures, we can parallelize the
 ## Deploy to Griptape Cloud
 
 This example requires three separate Structures in Griptape Cloud.
-1. Researcher Agent: [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-multi-agent-workflows/researcher.py&name=Researcher)
+
+### Researcher Agent
+
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-multi-agent-workflows/researcher.py&name=Researcher)
+
 ```
 GOOGLE_API_SEARCH_ID=<id>
 GOOGLE_API_KEY=<key>
 OPENAI_API_KEY=<key>
-
 ```
-1. Writer Agent: [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-multi-agent-workflows/writer.py&name=Writer)
+
+### Writer Agent
+
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-multi-agent-workflows/writer.py&name=Writer)
+
 ```
 OPENAI_API_KEY=<key>
 GT_CLOUD_API_KEY=<key>
 ```
-1. Main Workflow: [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-multi-agent-workflows/workflow.py&name=Multi Agent Workflow)
+
+### Main Workflow
+
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-multi-agent-workflows/workflow.py&name=Multi%20Agent%20Workflow)
+
 ```
 OPENAI_API_KEY=<key>
 GT_CLOUD_API_KEY=<key>
