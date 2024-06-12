@@ -30,7 +30,7 @@ if __name__ == "__main__":
             driver=GriptapeCloudStructureRunDriver(
                 api_key=os.environ["GT_CLOUD_API_KEY"],
                 structure_id=os.environ["GT_RESEARCH_STRUCTURE_ID"],
-                async_run=True,
+                # async_run=True,
             ),
         ),
     )
