@@ -8,6 +8,7 @@ from griptape.tools import (
     WebScraper,
     WebSearch,
 )
+from griptape.drivers import GoogleWebSearchDriver
 
 def build_researcher():
     """Builds a Researcher Structure."""
@@ -15,8 +16,10 @@ def build_researcher():
         id="researcher",
         tools=[
             WebSearch(
-                google_api_key=os.environ["GOOGLE_API_KEY"],
-                google_api_search_id=os.environ["GOOGLE_API_SEARCH_ID"],
+                web_search_driver=GoogleWebSearchDriver(
+                    api_key=os.environ["GOOGLE_API_KEY"],
+                    search_id=os.environ["GOOGLE_API_SEARCH_ID"],
+                ),
             ),
             WebScraper(
                 off_prompt=True,

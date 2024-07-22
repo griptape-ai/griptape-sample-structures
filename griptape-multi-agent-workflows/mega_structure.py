@@ -1,10 +1,6 @@
 import os
 
-from griptape.drivers import (
-    WebhookEventListenerDriver,
-    LocalStructureRunDriver,
-    GriptapeCloudEventListenerDriver,
-)
+from griptape.drivers import WebhookEventListenerDriver, LocalStructureRunDriver, GoogleWebSearchDriver
 from griptape.events import EventListener, FinishStructureRunEvent
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent, Workflow
@@ -14,7 +10,6 @@ from griptape.tools import (
     WebScraper,
     WebSearch,
 )
-
 from dotenv import load_dotenv
 
 WRITERS = [
@@ -37,9 +32,10 @@ def build_researcher():
         id="researcher",
         tools=[
             WebSearch(
-                google_api_key=os.environ["GOOGLE_API_KEY"],
-                google_api_search_id=os.environ["GOOGLE_API_SEARCH_ID"],
-                off_prompt=False,
+                web_search_driver=GoogleWebSearchDriver(
+                    api_key=os.environ["GOOGLE_API_KEY"],
+                    search_id=os.environ["GOOGLE_API_SEARCH_ID"],
+                ),
             ),
             WebScraper(
                 off_prompt=True,
@@ -89,6 +85,7 @@ def build_researcher():
 
 def build_writer(role: str, goal: str, backstory: str):
     """Builds a Writer Structure.
+
     Args:
         role: The role of the writer.
         goal: The goal of the writer.
@@ -99,8 +96,8 @@ def build_writer(role: str, goal: str, backstory: str):
         event_listeners=[
             EventListener(
                 event_types=[FinishStructureRunEvent],
-                driver=GriptapeCloudEventListenerDriver(
-                    api_key=os.environ["GT_CLOUD_API_KEY"],
+                driver=WebhookEventListenerDriver(
+                    webhook_url=os.environ["WEBHOOK_URL"],
                 ),
             )
         ],
@@ -141,7 +138,6 @@ def build_writer(role: str, goal: str, backstory: str):
 
 if __name__ == "__main__":
     load_dotenv()
-    
     # Build the team
     team = Workflow()
     research_task = team.add_task(
@@ -156,34 +152,33 @@ if __name__ == "__main__":
             ),
         ),
     )
-    end_task = team.add_task(
-        PromptTask(
-            'State "All Done!"',
-        )
-    )
-    team.insert_tasks(
-        research_task,
-        [
-            StructureRunTask(
-                (
-                    """Using insights provided, develop an engaging blog
+    writer_tasks = team.add_tasks(*[
+        StructureRunTask(
+            (
+                """Using insights provided, develop an engaging blog
                 post that highlights the most significant AI advancements.
                 Your post should be informative yet accessible, catering to a tech-savvy audience.
                 Make it sound cool, avoid complex words so it doesn't sound like AI.
+
                 Insights:
                 {{ parent_outputs["research"] }}""",
-                ),
-                driver=LocalStructureRunDriver(
-                    structure_factory_fn=lambda: build_writer(
-                        role=writer["role"],
-                        goal=writer["goal"],
-                        backstory=writer["backstory"],
-                    )
-                ),
-            )
-            for writer in WRITERS
-        ],
-        end_task,
+            ),
+            driver=LocalStructureRunDriver(
+                structure_factory_fn=lambda: build_writer(
+                    role=writer["role"],
+                    goal=writer["goal"],
+                    backstory=writer["backstory"],
+                )
+            ),
+            parent_ids=[research_task.id],
+        )
+        for writer in WRITERS
+    ])
+    end_task = team.add_task(
+        PromptTask(
+            'State "All Done!"',
+            parent_ids=[writer_task.id for writer_task in writer_tasks],
+        )
     )
 
     team.run()
