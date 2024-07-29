@@ -2,7 +2,7 @@ This sample allows you to switch between three different providers and models wi
 
 You can optionally specify the `-s` or `a` paramters to change the subject or audience of the prompt.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-model-switcher/structure.py&name=Griptape%20Model%20Switcher%20Sample)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-model-switcher&type=sample)
 
 ## Requirements
 

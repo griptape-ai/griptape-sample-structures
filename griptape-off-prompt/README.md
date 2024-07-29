@@ -2,7 +2,7 @@ This sample summarizes your website of choice into a text message to a friend. Y
 
 To learn more, see the [Griptape blog post on Task Memory and Off-Prompt](https://www.griptape.ai/blog/the-power-of-task-memory-and-off-prompt-tm).
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures?url=https://github.com/griptape-ai/griptape-sample-structures/blob/main/griptape-off-prompt/structure.py&name=Griptape%20Off-Prompt%20Sample)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-off-prompt&type=sample)
 
 ## Requirements
 
