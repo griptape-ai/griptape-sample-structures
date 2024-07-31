@@ -3,9 +3,9 @@ runtime: python3
 runtime_version: 3.11
 build:
   requirements_file: requirements.txt
-  cache_build_dependencies: # Defines the configuration for caching build dependencies in order to speed up Deployments
-    enabled: false # Defines whether the build dependency caching is on or off
-    watched_files: # Defines the particular files that will trigger cache invalidation, resulting in a full rebuild of the Structure and dependencies
+  cache_build_dependencies: # Configures caching (for faster deployments!)
+    enabled: false # Toggles caching
+    watched_files: # List of files that will trigger a full rebuild of the Structure
       - requirements.txt
 run:
   main_file: structure.py
