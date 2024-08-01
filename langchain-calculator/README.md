@@ -19,3 +19,16 @@ env_secrets
 OPENAI_API_KEY=<encrypted_value> # Fill in with your own key
 GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
 ```
+
+## Running this Sample
+
+### Locally
+
+```
+python structure.py
+```
+
+### Griptape Cloud
+
+Create a run with no parameters
+
