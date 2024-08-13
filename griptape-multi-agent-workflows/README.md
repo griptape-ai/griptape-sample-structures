@@ -5,7 +5,7 @@ By splitting up our workloads across multiple Structures, we can parallelize the
 ## Requirements
 
 - [Open AI Key](https://platform.openai.com/api-keys)
-- [Griptape Cloud Key](https://cloud.griptape.ai/keys)
+- [Griptape Cloud Key](https://cloud.griptape.ai/account/api-keys)
 - [Google Custom Search](https://developers.google.com/custom-search/v1/introduction)
 
 ## Configuration
