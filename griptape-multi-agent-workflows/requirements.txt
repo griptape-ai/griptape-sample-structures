@@ -1,2 +1,3 @@
 python-dotenv==1.0.1
-griptape[all]==0.28.2
+# DO NOT MERGE THIS. UPDATE TO 0.30 AFTER THAT IS RELEASED
+griptape[all] @ git+https://github.com/griptape-ai/griptape@dev
