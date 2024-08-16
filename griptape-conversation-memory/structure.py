@@ -7,7 +7,6 @@ from griptape.drivers.memory.conversation.griptape_cloud_conversation_memory_dri
 )
 from griptape.drivers import GriptapeCloudEventListenerDriver
 from griptape.events import EventListener, event_bus
-import logging
 import argparse
 
 
@@ -32,8 +31,6 @@ def get_listener_api_key() -> str:
         )
     return api_key
 
-
-logging.getLogger(config.logging.logger_name).setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
