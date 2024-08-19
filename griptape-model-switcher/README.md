@@ -6,21 +6,15 @@ This sample allows you to switch between three different providers and models wi
 
 - [Open AI Key](https://platform.openai.com/api-keys)
 - [Anthropic API Key](https://console.anthropic.com/settings/keys)
-- [Voyage API Key](https://dash.voyageai.com/)
 - [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 
-env
-```
-# None Needed
-```
+Assign the following environment variables to your Structure: 
 
-env_secrets
 ```
 OPENAI_API_KEY=<encrypted_value> # Fill in with your own key
 ANTHROPIC_API_KEY=<encrypted_value> # Fill in with your own key
-VOYAGE_API_KEY=<encrypted_value> # Fill in with your own key
 GOOGLE_API_KEY=<encrypted_value> # Fill in with your own key
 GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
 ```
