@@ -8,7 +8,7 @@ To learn more, see the [Griptape blog post on Task Memory and Off-Prompt](https:
 
 - [Anthropic API Key](https://console.anthropic.com/settings/keys)
 - [Voyage API Key](https://dash.voyageai.com/)
-- [Griptape Cloud Key](https://cloud.griptape.ai/account/api-keys)
+- [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 

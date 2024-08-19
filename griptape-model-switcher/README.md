@@ -7,7 +7,7 @@ This sample allows you to switch between three different providers and models wi
 - [Open AI Key](https://platform.openai.com/api-keys)
 - [Anthropic API Key](https://console.anthropic.com/settings/keys)
 - [Voyage API Key](https://dash.voyageai.com/)
-- [Griptape Cloud Key](https://cloud.griptape.ai/account/api-keys)
+- [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 

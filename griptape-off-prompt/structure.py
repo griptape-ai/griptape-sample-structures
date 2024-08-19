@@ -23,7 +23,7 @@ def get_listener_api_key() -> str:
             """
               ****WARNING****: No value was found for the 'GT_CLOUD_API_KEY' environment variable.
               This environment variable is required when running in Griptape Cloud for authorization.
-              You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/keys .
+              You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/configuration/api-keys .
               Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
               """
         )
