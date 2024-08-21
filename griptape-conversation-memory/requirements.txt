@@ -1,2 +1,0 @@
-python-dotenv==1.0.1
-griptape[all] @ git+https://github.com/griptape-ai/griptape@conv_mem_cloud

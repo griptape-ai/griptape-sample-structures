@@ -67,7 +67,6 @@ if __name__ == "__main__":
         event_driver = None
 
     config.drivers.conversation_memory = GriptapeCloudConversationMemoryDriver(
-        base_url=get_base_url() + "/api",
         api_key=get_listener_api_key(),
         thread_id=thread_id,
     )

@@ -1,6 +1,6 @@
 This sample allows you to deploy a Griptape Agent configured with the Griptape Cloud Conversation Memory Driver.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud-zach-dev.griptape.ai/structures/create?sample-name=griptape-conversation-memory&type=sample)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-chat-memory-agent&type=sample)
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This sample allows you to deploy a Griptape Agent configured with the Griptape C
 
 Environment Variables
 
-```
+```bash
 OPENAI_API_KEY=<secret_ref> # Reference your own key from a Griptape Secret
 GT_CLOUD_API_KEY=<secret_ref> # Reference your own key from a Griptape Secret
 ```
@@ -34,7 +34,7 @@ Defaults:
 -p "Hello, my name is Griptaper!"
 ```
 
-You can update the arguments when you run
+You can update the arguments when you run.
 
 ```bash
 python structure.py -p "Hello, my name is Griptaper!"
