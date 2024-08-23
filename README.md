@@ -18,6 +18,7 @@ Once logged in, you can connect your GitHub account and [create a structure from
 | Run your Langchain code on Griptape Cloud | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/langchain-calculator) |
 | Model Switcher with Griptape | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-model-switcher) |
 | Griptape Task Memory and Off Prompt | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-off-prompt) |
+| Griptape Chat Memory Agent | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-chat-memory-agent) |
 
 ## Running Samples
 
