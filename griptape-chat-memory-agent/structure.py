@@ -1,12 +1,12 @@
 import os
 from dotenv import load_dotenv
 from griptape.structures import Agent
-from griptape.config import config
-from griptape.drivers.memory.conversation.griptape_cloud_conversation_memory_driver import (
+from griptape.configs import Defaults
+from griptape.drivers import (
     GriptapeCloudConversationMemoryDriver,
 )
 from griptape.drivers import GriptapeCloudEventListenerDriver
-from griptape.events import EventListener, event_bus
+from griptape.events import EventListener, EventBus
 import argparse
 
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     if is_running_in_managed_environment():
         event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
-        event_bus.add_event_listeners(
+        EventBus.add_event_listeners(
             [
                 EventListener(
                     # By default, GriptapeCloudEventListenerDriver uses the api key provided
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         load_dotenv()
         event_driver = None
 
-    config.drivers.conversation_memory = GriptapeCloudConversationMemoryDriver(
+    Defaults.drivers_config.conversation_memory_driver = GriptapeCloudConversationMemoryDriver(
         api_key=get_listener_api_key(),
         thread_id=thread_id,
     )
