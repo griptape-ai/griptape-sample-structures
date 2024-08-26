@@ -1,2 +1,2 @@
 python-dotenv==1.0.1
-griptape[all]==0.30.*
+griptape==0.30.*
