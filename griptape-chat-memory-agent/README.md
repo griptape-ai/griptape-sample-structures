@@ -5,7 +5,7 @@ This sample allows you to deploy a Griptape Agent configured with the Griptape C
 ## Requirements
 
 - [Open AI Key](https://platform.openai.com/api-keys)
-- [Griptape Cloud API Key](https://cloud.griptape.ai/account/api-keys)
+- [Griptape Cloud API Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 
