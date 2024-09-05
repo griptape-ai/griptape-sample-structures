@@ -46,10 +46,18 @@ if __name__ == "__main__":
         default=None,
         help="The Griptape Cloud Thread ID you wish to use",
     )
+    parser.add_argument(
+        "-s",
+        "--stream",
+        default=False,
+        action="store_true",
+        help="Enable streaming mode for the Agent",
+    )
 
     args = parser.parse_args()
     prompt = args.prompt
     thread_id = args.thread_id
+    stream = args.stream
 
     if is_running_in_managed_environment():
         event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
@@ -66,11 +74,13 @@ if __name__ == "__main__":
         load_dotenv()
         event_driver = None
 
-    Defaults.drivers_config.conversation_memory_driver = GriptapeCloudConversationMemoryDriver(
-        api_key=get_listener_api_key(),
-        thread_id=thread_id,
+    Defaults.drivers_config.conversation_memory_driver = (
+        GriptapeCloudConversationMemoryDriver(
+            api_key=get_listener_api_key(),
+            thread_id=thread_id,
+        )
     )
 
-    agent = Agent()
+    agent = Agent(stream=stream)
 
     result = agent.run(prompt)

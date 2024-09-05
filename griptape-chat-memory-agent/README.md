@@ -46,6 +46,12 @@ To make use of the conversation memory, create a Griptape Cloud Thread, and pass
 python structure.py -t <thread_id> -p "Hello, my name is Griptaper!"
 ```
 
+To enable the Agent to stream responses, include the streaming flag:
+
+```bash
+python structure.py -t <thread_id> -p "Hello, my name is Griptaper!" -s
+```
+
 ### Griptape Cloud
 
 You can create a run via the API or the UI.
