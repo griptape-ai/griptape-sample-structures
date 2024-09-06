@@ -5,7 +5,7 @@ This example is basic Langchain code, but mainly intended to show you how you co
 ## Requirements
 
 - [Open AI Key](https://platform.openai.com/api-keys)
-- [Griptape Cloud Key](https://cloud.griptape.ai/account/api-keys)
+- [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 
