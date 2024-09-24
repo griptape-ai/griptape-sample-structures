@@ -48,4 +48,4 @@ You can create a run via the API or the UI. When creating runs in the UI, you wi
 
 #### As a Data Source
 
-Once created in Griptape Cloud, you can specify this [Structure as a Data Source]() if you wish to ingest the filtered data as a Data Source. When running as a Data Source it will still save the output spreadsheet to your S3 bucket so you can validate the filtered information.
+Once created in Griptape Cloud, you can specify this [Structure as a Data Source](https://docs.griptape.ai/latest/griptape-cloud/data-sources/create-data-source/#Structure(Experimental)) if you wish to ingest the filtered data as a Data Source. When running as a Data Source it will still save the output spreadsheet to your S3 bucket so you can validate the filtered information.
