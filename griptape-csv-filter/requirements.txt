@@ -1,0 +1,3 @@
+griptape[drivers-prompt-anthropic]==0.31.0
+boto3==1.35.1
+python-dotenv==1.0.1

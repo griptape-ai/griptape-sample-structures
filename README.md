@@ -20,6 +20,7 @@ Once logged in, you can connect your GitHub account and [create a structure from
 | Griptape Task Memory and Off Prompt | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-off-prompt) |
 | Griptape Chat Memory Agent | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-chat-memory-agent) |
 | Griptape Find and Replace Transform | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-find-replace-transform) |
+| Griptape Filter CSVs | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-csv-filter) |
 
 ## Running Samples
 
