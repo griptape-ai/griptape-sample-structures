@@ -144,7 +144,7 @@ if __name__ == "__main__":
     print("... Done writing file")
 
     final_data = load_file(output_file_path_local)
-    print(final_data)
+    print(final_data.decode())
 
     try:
         print("Uploading to S3...")
