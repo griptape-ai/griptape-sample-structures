@@ -25,6 +25,15 @@ AWS_SECRET_ACCESS_KEY=
 
 This sample filters spreadsheet data down to columns relating to a specific concept. For example, if you have a spreadsheet filled with employee information and you only wanted columns that called out demographic information you could specify `-d demographics` as the filter criteria.
 
+We have a sample CSV available containing the publicly availble electric vehicle information that you can try out with the following parameters. Note, if you use this S3 URI, you will still need to provide AWS credentials to your AWS account, however the final CSV will not be written back to S3 and instead will output it in plain text. To try out the full functionality of this sample, you should provide a CSV file that is in a S3 bucket you have write access to.
+
+```
+-i
+s3://griptape-public/sample-structures-data/Electric_Vehicle_Population_Data.csv
+-d
+"location information"
+```
+
 ### Locally
 
 You can run this Structure locally by providing the following inputs:

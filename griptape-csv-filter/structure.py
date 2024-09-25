@@ -143,19 +143,26 @@ if __name__ == "__main__":
         writer.writerows(extracted_data)
     print("... Done writing file")
 
-    print("Uploading to S3...")
-    s3_client.upload_file(output_file_path_local, bucket, output_file_path_local)
-    print("Done uploading to S3")
+    final_data = load_file(output_file_path_local)
+    print(final_data)
+
+    try:
+        print("Uploading to S3...")
+        s3_client.upload_file(output_file_path_local, bucket, output_file_path_local)
+        print("Done uploading to S3")
+    except Exception as e:
+        print(f"Unable to write file to S3\n{e}")
 
     # This code is if you run this Structure as a GTC DC
-    print("Publishing final event...")
-    artifacts = CsvLoader().load(load_file(output_file_path_local))
+    if event_driver is not None:
+        print("Publishing final event...")
+        artifacts = CsvLoader().load(final_data)
 
-    task_input = TextArtifact(value=None)
-    done_event = FinishStructureRunEvent(
-        output_task_input=task_input, output_task_output=ListArtifact(artifacts)
-    )
+        task_input = TextArtifact(value=None)
+        done_event = FinishStructureRunEvent(
+            output_task_input=task_input, output_task_output=ListArtifact(artifacts)
+        )
 
-    EventBus.add_event_listener(EventListener(driver=event_driver))
-    EventBus.publish_event(done_event, flush=True)
-    print("Published final event")
+        EventBus.add_event_listener(EventListener(driver=event_driver))
+        EventBus.publish_event(done_event, flush=True)
+        print("Published final event")
