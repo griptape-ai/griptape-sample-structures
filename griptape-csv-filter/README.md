@@ -19,6 +19,7 @@ env_secrets
 ```
 ANTHROPIC_API_KEY=
 AWS_SECRET_ACCESS_KEY=
+GT_CLOUD_API_KEY=
 ```
 
 ## Running this Sample
