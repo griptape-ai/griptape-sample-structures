@@ -1,4 +1,4 @@
-This sample takes in a S3 URI pointing at a spreadsheet file and filters the spreadsheet only to relevant columns based on the natural language criteria you specify. It does this while keeping the spreadsheet data "off prompt" and away from the LLM if you wish to keep the spreadsheet contents away from 3P model providers.
+This sample takes in a S3 URI pointing at a spreadsheet file and filters the spreadsheet only to relevant columns based on the natural language criteria you specify. It does this while keeping the spreadsheet data "off prompt" and away from the LLM if you wish to keep the spreadsheet contents away from 3P model providers. It will then write the file back to the same S3 bucket your input file exists in under a folder called `output`.
 
 [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-csv-filter&type=sample)
 
