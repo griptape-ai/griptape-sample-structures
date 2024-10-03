@@ -1,0 +1,4 @@
+python-dotenv==1.0.*
+griptape==0.32.*
+boto3==1.35.*
+pypdf==5.0.*
