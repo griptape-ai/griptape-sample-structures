@@ -1,12 +1,12 @@
 This sample takes in a S3 URI pointing at a AWS Bill PDF and converts the bill into a CSV. Each item in the bill is converted to a row in the CSV. It will then write the CSV back to a provided S3 URI. This showcases how Griptape can be used to automate previously manual processes such as identifying if a PDF field with identical formatting is a `AWS Region` or an `AWS Service`.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-csv-filter&type=sample)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-aws-bill-pdf-to-csv&type=sample)
 
 ## Requirements
 
 - [Open AI Key](https://platform.openai.com/api-keys)
 - [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
-- AWS Access Key and Secret with S3 Read/Write permissions
+- [AWS Access Key and Secret](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) with [Amazon S3 Read/Write permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_s3_rw-bucket.html)
 
 ## Configuration
 
