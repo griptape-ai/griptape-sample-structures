@@ -6,7 +6,7 @@ This sample takes a Bucket and Asset that represent an AWS Bill PDF stored in Gr
 
 - [Open AI Key](https://platform.openai.com/api-keys)
 - [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
-- [Griptape Cloud Bucket](https://cloud.griptape.ai/buckets) containing an AWS Bill PDF as an Asset.
+- [Griptape Cloud Bucket](https://cloud.griptape.ai/buckets) containing an AWS Bill PDF as an Asset. `upload.py` script may be used to create these resources.
 
 ## Configuration
 
@@ -52,4 +52,4 @@ You can create a run via the API or the UI. When creating runs in the UI, you wi
 
 #### As a Data Source
 
-Once created in Griptape Cloud, you can specify this [Structure as a Data Source](https://docs.griptape.ai/latest/griptape-cloud/data-sources/create-data-source/#Structure(Experimental)) if you wish to ingest the CSV formatted data as a Data Source. When running as a Data Source it will still save the output spreadsheet to your Bucket so you may download the generated CSV for validation.
+Once created in Griptape Cloud, you can specify this [Structure as a Data Source](https://docs.griptape.ai/latest/griptape-cloud/data-sources/create-data-source/#Structure(Experimental)) if you wish to ingest the CSV formatted data as a Data Source. When running as a Data Source it will still save the output spreadsheet to your Bucket so you may download the generated CSV for validation with `download.py`.
