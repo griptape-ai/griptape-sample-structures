@@ -150,22 +150,22 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-p",
-        "--pdf_name",
+        "--pdf_file_name",
         default=None,
-        help="The Griptape Cloud Asset name for the input PDF.",
+        help="The Griptape Cloud Asset file name for the input PDF.",
     )
     parser.add_argument(
         "-c",
-        "--csv_name",
+        "--csv_file_name",
         default=None,
-        help="The Griptape Cloud Asset name for the output CSV.",
+        help="The Griptape Cloud Asset file name for the output CSV.",
     )
 
     args = parser.parse_args()
     bucket_id = args.bucket_id
     workdir = args.workdir
-    pdf_name = args.pdf_name
-    csv_name = args.csv_name
+    pdf_file_name = args.pdf_file_name
+    csv_file_name = args.csv_file_name
 
     if is_running_in_managed_environment():
         event_driver = GriptapeCloudEventListenerDriver(api_key=get_gtc_api_key(), base_url=get_gtc_base_url())
@@ -190,10 +190,10 @@ if __name__ == "__main__":
     )
 
     loader = AWSBillPdfLoader(file_manager_driver=gtc_file_manager_driver)
-    list_artifact = loader.parse(loader.fetch(pdf_name))
+    list_artifact = loader.parse(loader.fetch(pdf_file_name))
     print(list_artifact)
 
-    with open(csv_name, 'w', newline='') as destination_file:
+    with open(csv_file_name, 'w', newline='') as destination_file:
         fieldnames = ['region', 'service', 'type', 'quantity', 'unit', 'cost', 'description']
         writer = csv.DictWriter(destination_file, fieldnames=fieldnames)
 
@@ -201,11 +201,11 @@ if __name__ == "__main__":
         for artifact in list_artifact.value:
             writer.writerow(dict(zip(fieldnames, json.loads(artifact.value))))
 
-    gtc_file_manager_driver.try_save_file(path=csv_name, value=open(csv_name, "rb").read())
+    gtc_file_manager_driver.try_save_file(path=csv_file_name, value=open(csv_file_name, "rb").read())
 
     if is_running_in_managed_environment():
-        if os.path.exists(csv_name):
-            os.remove(csv_name)
+        if os.path.exists(csv_file_name):
+            os.remove(csv_file_name)
 
     # This code is if you run this Structure as a GTC DC
     if event_driver is not None:

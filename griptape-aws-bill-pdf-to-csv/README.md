@@ -25,7 +25,14 @@ This sample converts an AWS bill PDF into a CSV. This is most useful for custome
 You can run this Structure locally by providing the following inputs:
 
 ```
-python structure.py -b <bucket_id> -d <workdir> -p <pdf_asset_name> -c <csv_asset_name>
+python structure.py -b <bucket_id> -d <workdir> -p <pdf_asset_file_name> -c <csv_asset_file_name>
+```
+
+You may also run the `upload.py` and `download.py` scripts locally to upload and download files directly:
+```
+python upload.py -b <bucket_id> -p <local_file_path> -d <workdir> -n <asset_file_name>
+
+python download.py -b <bucket_id> -p <local_file_path> -d <workdir> -n <asset_file_name>
 ```
 
 ### Griptape Cloud
@@ -38,9 +45,9 @@ You can create a run via the API or the UI. When creating runs in the UI, you wi
 -d
 <workdir>
 -p
-<pdf_asset_name>
+<pdf_asset_file_name>
 -c
-<csv_asset_name>
+<csv_asset_file_name>
 ```
 
 #### As a Data Source
