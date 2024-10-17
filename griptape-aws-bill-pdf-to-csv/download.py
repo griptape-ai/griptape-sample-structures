@@ -29,6 +29,7 @@ if __name__ == "__main__":
         default=None,
         help="The name for the file being downloaded in the Griptape Cloud Bucket.",
     )
+
     args = parser.parse_args()
     bucket_id = args.bucket_id
     local_file_path = args.local_file_path
