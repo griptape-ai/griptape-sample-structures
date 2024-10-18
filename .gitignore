@@ -1,5 +1,7 @@
 .venv
-.env
+.envq
 
 downloaded
 output
+
+.idea/
