@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import boto3
 import csv
 import json
 import os
@@ -13,23 +12,22 @@ from io import BytesIO
 from typing import Optional, cast
 
 from griptape.artifacts import TextArtifact, ListArtifact
-from griptape.drivers import GriptapeCloudEventListenerDriver
+from griptape.drivers import GriptapeCloudEventListenerDriver, GriptapeCloudFileManagerDriver
 from griptape.events import EventListener, EventBus, FinishStructureRunEvent
-from griptape.loaders import BaseTextLoader
+from griptape.loaders import BaseFileLoader
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
-from griptape.utils import load_file
 
 
 def is_running_in_managed_environment() -> bool:
     return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
 
 
-def get_base_url() -> str:
+def get_gtc_base_url() -> str:
     return os.environ.get("GT_CLOUD_BASE_URL", "https://cloud.griptape.ai")
 
 
-def get_listener_api_key() -> str:
+def get_gtc_api_key() -> str:
     api_key = os.environ.get("GT_CLOUD_API_KEY", "")
     if is_running_in_managed_environment() and not api_key:
         print(
@@ -40,6 +38,7 @@ def get_listener_api_key() -> str:
             Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
             """
         )
+        raise ValueError("No value was found for the 'GT_CLOUD_API_KEY' environment variable.")
     return api_key
 
 
@@ -60,30 +59,21 @@ agent = Agent(
 )
 
 @define
-class PdfLoader(BaseTextLoader):
+class AWSBillPdfLoader(BaseFileLoader[TextArtifact]):
     region = "UNKNOWN"
     service = "UNKNOWN"
     type = "UNKNOWN"
 
-    def load(
+    def parse(
         self,
-        source: bytes,
-        password: Optional[str] = None,
-        *args,
-        **kwargs,
-    ) -> list[TextArtifact]:
-        reader = pypdf.PdfReader(BytesIO(source), strict=True, password=password)
+        data: bytes,
+    ) -> ListArtifact:
+        reader = pypdf.PdfReader(BytesIO(data), strict=True)
         artifacts = []
         for page in reader.pages:
             extracted_text = page.extract_text(extraction_mode="layout")
             artifacts.extend(self._text_to_artifacts(extracted_text))
-        return artifacts
-
-    def load_collection(self, sources: list[bytes], *args, **kwargs) -> dict[str, list[TextArtifact]]:
-        return cast(
-            dict[str, list[TextArtifact]],
-            super().load_collection(sources, *args, **kwargs),
-        )
+        return ListArtifact(artifacts)
     
     def _text_to_artifacts(self, text: str) -> list[TextArtifact]:
         artifacts = []
@@ -147,24 +137,38 @@ class PdfLoader(BaseTextLoader):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-s",
-        "--source_3_uri",
+        "-b",
+        "--bucket_id",
         default=None,
-        help="The Amazon S3 URI of the PDF file to convert to CSV.",
+        help="The Griptape Cloud Bucket source of PDF Asset and destination of CSV Asset.",
     )
     parser.add_argument(
         "-d",
-        "--destination_s3_uri",
+        "--workdir",
         default=None,
-        help="The Amazon S3 URI of the PDF file to convert to CSV.",
+        help="The working directory location of PDF and CSV in the Griptape Cloud Bucket.",
+    )
+    parser.add_argument(
+        "-p",
+        "--pdf_file_name",
+        default=None,
+        help="The Griptape Cloud Asset file name for the input PDF.",
+    )
+    parser.add_argument(
+        "-c",
+        "--csv_file_name",
+        default=None,
+        help="The Griptape Cloud Asset file name for the output CSV.",
     )
 
     args = parser.parse_args()
-    source_3_uri = args.source_3_uri
-    destination_s3_uri = args.destination_s3_uri
+    bucket_id = args.bucket_id
+    workdir = args.workdir
+    pdf_file_name = args.pdf_file_name
+    csv_file_name = args.csv_file_name
 
     if is_running_in_managed_environment():
-        event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
+        event_driver = GriptapeCloudEventListenerDriver(api_key=get_gtc_api_key(), base_url=get_gtc_base_url())
         EventBus.add_event_listeners(
             [
                 EventListener(
@@ -178,53 +182,37 @@ if __name__ == "__main__":
         load_dotenv()
         event_driver = None
 
-    s3_client = boto3.client(
-        's3',
-        aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
-        aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+    gtc_file_manager_driver = GriptapeCloudFileManagerDriver(
+        api_key=get_gtc_api_key(),
+        base_url=get_gtc_base_url(),
+        bucket_id=bucket_id,
+        workdir=workdir
     )
 
-    source_bucket, source_key = source_3_uri.split('/',2)[-1].split('/',1)
-    destination_bucket, destination_key = destination_s3_uri.split('/',2)[-1].split('/',1)
+    loader = AWSBillPdfLoader(file_manager_driver=gtc_file_manager_driver)
+    list_artifact = loader.load(pdf_file_name)
+    print(list_artifact)
 
-    try:
-        print(f"Downloading from S3... Bucket: {source_bucket} Key: {source_key}")
-        s3_client.download_file(source_bucket, source_key, source_key)
-        print("Done downloading from S3")
-    except Exception as e:
-        print(f"Unable to download file from S3\n{e}")
-        raise e
-    artifacts = PdfLoader().load(load_file(source_key))
-
-    with open(destination_key, 'w', newline='') as destination_file:
+    with open(csv_file_name, 'w', newline='') as destination_file:
         fieldnames = ['region', 'service', 'type', 'quantity', 'unit', 'cost', 'description']
         writer = csv.DictWriter(destination_file, fieldnames=fieldnames)
 
         writer.writeheader()
-        for artifact in artifacts:
+        for artifact in list_artifact.value:
             writer.writerow(dict(zip(fieldnames, json.loads(artifact.value))))
 
-
-    try:
-        print(f"Uploading to S3... Bucket: {destination_bucket} Key: {destination_key}")
-        s3_client.upload_file(destination_key, destination_bucket, destination_key)
-        print("Done uploading to S3")
-    except Exception as e:
-        print(f"Unable to upload file to S3\n{e}")
-        raise e
+    gtc_file_manager_driver.try_save_file(path=csv_file_name, value=open(csv_file_name, "rb").read())
 
     if is_running_in_managed_environment():
-        if os.path.exists(source_key):
-            os.remove(source_key)
-        if os.path.exists(destination_key):
-            os.remove(destination_key)
+        if os.path.exists(csv_file_name):
+            os.remove(csv_file_name)
 
     # This code is if you run this Structure as a GTC DC
     if event_driver is not None:
         print("Publishing final event...")
         task_input = TextArtifact(value=None)
         done_event = FinishStructureRunEvent(
-            output_task_input=task_input, output_task_output=ListArtifact(artifacts)
+            output_task_input=task_input, output_task_output=list_artifact
         )
 
         EventBus.add_event_listener(EventListener(driver=event_driver))
