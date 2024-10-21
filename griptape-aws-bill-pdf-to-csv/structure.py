@@ -190,7 +190,7 @@ if __name__ == "__main__":
     )
 
     loader = AWSBillPdfLoader(file_manager_driver=gtc_file_manager_driver)
-    list_artifact = loader.parse(loader.fetch(pdf_file_name))
+    list_artifact = loader.load(pdf_file_name)
     print(list_artifact)
 
     with open(csv_file_name, 'w', newline='') as destination_file:
