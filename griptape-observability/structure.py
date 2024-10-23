@@ -13,7 +13,7 @@ def is_running_in_managed_environment() -> bool:
 
 
 def get_listener_api_key() -> str:
-    api_key = os.environ.get("GT_CLOUD_API_KEY", "gt-2rHdtJHIh99puMw7TPPfzC3c32ER3JpcHRhcGU=taCkUfT4USMy3dFtT09iUi9U0eo")
+    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
     if not api_key:
         print(
             """
@@ -50,10 +50,9 @@ if __name__ == "__main__":
             ]
         )
     else:
-        load_dotenv()
-        event_driver = None
+        raise EnvironmentError("This script must be run in a Griptape Cloud or Skatepark emulator environment.")
 
-    observability_driver = GriptapeCloudObservabilityDriver(api_key=get_listener_api_key(), structure_run_id="69d64d34-2b2f-4ba1-94ee-560403cce65b")
+    observability_driver = GriptapeCloudObservabilityDriver(api_key=get_listener_api_key(), structure_run_id=os.environ["GT_CLOUD_STRUCTURE_RUN_ID"])
 
     with Observability(observability_driver=observability_driver):
         agent = Agent().run(prompt)
