@@ -1,16 +1,18 @@
 import os
 from typing import Optional
-import requests
 from dotenv import load_dotenv
 from griptape.structures import Agent
 from griptape.configs import Defaults
 from griptape.drivers import (
     GriptapeCloudConversationMemoryDriver,
 )
-from griptape.drivers import GriptapeCloudEventListenerDriver
+from griptape.drivers import (
+    GriptapeCloudEventListenerDriver,
+    GriptapeCloudRulesetDriver,
+)
 from griptape.events import EventListener, EventBus
-from griptape.rules.rule import Rule
 from griptape.rules.ruleset import Ruleset
+from griptape.tools import GriptapeCloudKnowledgeBaseTool, BaseTool
 import argparse
 
 
@@ -43,41 +45,42 @@ def get_headers():
     }
 
 
-def get_rule_by_id(rule_id: str) -> dict:
-    url = f"{get_base_url()}/api/rules/{rule_id}"
-    response = requests.get(url, headers=get_headers())
-    response.raise_for_status()
-    return response.json()
-
-
-def get_ruleset_by_alias(alias: str) -> dict:
-    url = f"{get_base_url()}/api/rulesets"
-    response = requests.get(url, headers=get_headers(), params={"alias": alias})
-    response.raise_for_status()
-    response_json = response.json()
-    if not response_json["rulesets"]:
-        raise ValueError(f"No ruleset found with alias '{alias}'")
-    return response_json["rulesets"][0]
+def get_knowledge_base_tools(knowledge_base_id: Optional[str]) -> list[BaseTool]:
+    if knowledge_base_id is None:
+        return []
+    else:
+        return [
+            GriptapeCloudKnowledgeBaseTool(
+                knowledge_base_id=knowledge_base_id,
+                api_key=get_listener_api_key(),
+                base_url=get_base_url(),
+            )
+        ]
 
 
 def get_rulesets(ruleset_alias: Optional[str]) -> list[Ruleset]:
     if ruleset_alias is None:
         return []
-
-    ruleset = get_ruleset_by_alias(ruleset_alias)
-    rule_ids = ruleset["rule_ids"]
-    rules = [get_rule_by_id(rule_id) for rule_id in rule_ids]
-    griptape_rulesets: list[Ruleset] = []
-    rules_values = []
-    for rule in rules:
-        rules_values.append(Rule(rule["rule"]))
-    griptape_rulesets.append(Ruleset(name=ruleset["name"], rules=rules_values))
-
-    return griptape_rulesets
+    else:
+        return [
+            Ruleset(
+                name=ruleset_alias,
+                ruleset_driver=GriptapeCloudRulesetDriver(
+                    api_key=get_listener_api_key(),
+                    base_url=get_base_url(),
+                ),
+            )
+        ]
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-k",
+        "--knowledge-base-id",
+        default=None,
+        help="Set the Griptape Cloud Knowledge Base ID you wish to use",
+    )
     parser.add_argument(
         "-p",
         "--prompt",
@@ -85,16 +88,10 @@ if __name__ == "__main__":
         help="The prompt you wish to use",
     )
     parser.add_argument(
-        "-t",
-        "--thread_id",
-        default=None,
-        help="The Griptape Cloud Thread ID you wish to use",
-    )
-    parser.add_argument(
         "-r",
         "--ruleset-alias",
         default=None,
-        help="Set the ruleset alias to use",
+        help="Set the Griptape Cloud Ruleset alias to use",
     )
     parser.add_argument(
         "-s",
@@ -103,8 +100,15 @@ if __name__ == "__main__":
         action="store_true",
         help="Enable streaming mode for the Agent",
     )
+    parser.add_argument(
+        "-t",
+        "--thread_id",
+        default=None,
+        help="Set the Griptape Cloud Thread ID you wish to use",
+    )
 
     args = parser.parse_args()
+    knowledge_base_id = args.knowledge_base_id
     prompt = args.prompt
     thread_id = args.thread_id
     ruleset_alias = args.ruleset_alias
@@ -132,6 +136,10 @@ if __name__ == "__main__":
         )
     )
 
-    agent = Agent(rulesets=get_rulesets(ruleset_alias), stream=stream)
+    agent = Agent(
+        rulesets=get_rulesets(ruleset_alias),
+        tools=get_knowledge_base_tools(knowledge_base_id),
+        stream=stream,
+    )
 
     result = agent.run(prompt)

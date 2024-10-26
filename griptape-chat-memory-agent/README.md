@@ -1,4 +1,4 @@
-This sample allows you to deploy a Griptape Agent configured with the Griptape Cloud Conversation Memory Driver.
+This sample allows you to deploy a Griptape Agent configured with the Griptape Cloud Conversation Memory Driver, Ruleset Driver, and Knowledge Base Tool.
 
 [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-chat-memory-agent&type=sample)
 
@@ -46,6 +46,18 @@ To make use of the conversation memory, create a Griptape Cloud Thread, and pass
 python structure.py -t <thread_id> -p "Hello, my name is Griptaper!"
 ```
 
+To enable the Agent to make use of a [Griptape Cloud Knowledge Base](https://docs.griptape.ai/latest/griptape-cloud/knowledge-bases/create-knowledge-base/) for [Retrieval Augmented Generation](https://docs.griptape.ai/latest/griptape-framework/engines/rag-engines/), create a Griptape Cloud Knowledge Base, and pass the Knowledge Base ID as a parameter to the run.
+
+```bash
+python structure.py -p "According to the Knowledge Base, what is RAG?" -k "123d66e6-2a16-4e9e-b077-0b1e9869d251"
+```
+
+To make use of a Ruleset for the Agent, create a [Griptape Cloud Ruleset](https://docs.griptape.ai/latest/griptape-cloud/rules/rulesets/), and pass the Ruleset `alias` as a parameter to shape the Agent's behavior.
+
+```bash
+python structure.py -p "Hello, my name is Griptaper!" -r "GriptapeExpertAgent"
+```
+
 To enable the Agent to stream responses, include the streaming flag:
 
 ```bash
@@ -57,8 +69,13 @@ python structure.py -t <thread_id> -p "Hello, my name is Griptaper!" -s
 You can create a run via the API or the UI.
 
 ```bash
+-k
+123d66e6-2a16-4e9e-b077-0b1e9869d251
 -t
 <thread_id>>
 -p
 Hello, my name is Griptaper!
+-r 
+"GriptapeExpertAgent"
+-s
 ```
