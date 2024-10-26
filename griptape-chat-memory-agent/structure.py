@@ -121,7 +121,7 @@ if __name__ == "__main__":
                 EventListener(
                     # By default, GriptapeCloudEventListenerDriver uses the api key provided
                     # in the GT_CLOUD_API_KEY environment variable.
-                    driver=event_driver,
+                    event_listener_driver=event_driver,
                 ),
             ]
         )
