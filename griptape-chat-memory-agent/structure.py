@@ -1,12 +1,18 @@
 import os
+from typing import Optional
 from dotenv import load_dotenv
 from griptape.structures import Agent
 from griptape.configs import Defaults
 from griptape.drivers import (
     GriptapeCloudConversationMemoryDriver,
 )
-from griptape.drivers import GriptapeCloudEventListenerDriver
+from griptape.drivers import (
+    GriptapeCloudEventListenerDriver,
+    GriptapeCloudRulesetDriver,
+)
 from griptape.events import EventListener, EventBus
+from griptape.rules.ruleset import Ruleset
+from griptape.tools import GriptapeCloudKnowledgeBaseTool, BaseTool
 import argparse
 
 
@@ -32,8 +38,49 @@ def get_listener_api_key() -> str:
     return api_key
 
 
+def get_headers():
+    return {
+        "Authorization": f"Bearer {get_listener_api_key()}",
+        "Content-Type": "application/json",
+    }
+
+
+def get_knowledge_base_tools(knowledge_base_id: Optional[str]) -> list[BaseTool]:
+    if knowledge_base_id is None:
+        return []
+    else:
+        return [
+            GriptapeCloudKnowledgeBaseTool(
+                knowledge_base_id=knowledge_base_id,
+                api_key=get_listener_api_key(),
+                base_url=get_base_url(),
+            )
+        ]
+
+
+def get_rulesets(ruleset_alias: Optional[str]) -> list[Ruleset]:
+    if ruleset_alias is None:
+        return []
+    else:
+        return [
+            Ruleset(
+                name=ruleset_alias,
+                ruleset_driver=GriptapeCloudRulesetDriver(
+                    api_key=get_listener_api_key(),
+                    base_url=get_base_url(),
+                ),
+            )
+        ]
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-k",
+        "--knowledge-base-id",
+        default=None,
+        help="Set the Griptape Cloud Knowledge Base ID you wish to use",
+    )
     parser.add_argument(
         "-p",
         "--prompt",
@@ -41,10 +88,10 @@ if __name__ == "__main__":
         help="The prompt you wish to use",
     )
     parser.add_argument(
-        "-t",
-        "--thread_id",
+        "-r",
+        "--ruleset-alias",
         default=None,
-        help="The Griptape Cloud Thread ID you wish to use",
+        help="Set the Griptape Cloud Ruleset alias to use",
     )
     parser.add_argument(
         "-s",
@@ -53,10 +100,18 @@ if __name__ == "__main__":
         action="store_true",
         help="Enable streaming mode for the Agent",
     )
+    parser.add_argument(
+        "-t",
+        "--thread_id",
+        default=None,
+        help="Set the Griptape Cloud Thread ID you wish to use",
+    )
 
     args = parser.parse_args()
+    knowledge_base_id = args.knowledge_base_id
     prompt = args.prompt
     thread_id = args.thread_id
+    ruleset_alias = args.ruleset_alias
     stream = args.stream
 
     if is_running_in_managed_environment():
@@ -66,7 +121,7 @@ if __name__ == "__main__":
                 EventListener(
                     # By default, GriptapeCloudEventListenerDriver uses the api key provided
                     # in the GT_CLOUD_API_KEY environment variable.
-                    driver=event_driver,
+                    event_listener_driver=event_driver,
                 ),
             ]
         )
@@ -81,6 +136,10 @@ if __name__ == "__main__":
         )
     )
 
-    agent = Agent(stream=stream)
+    agent = Agent(
+        rulesets=get_rulesets(ruleset_alias),
+        tools=get_knowledge_base_tools(knowledge_base_id),
+        stream=stream,
+    )
 
     result = agent.run(prompt)

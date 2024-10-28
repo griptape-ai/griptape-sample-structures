@@ -7,5 +7,6 @@ build:
     enabled: false # Toggles caching
     watched_files: # List of files that will trigger a full rebuild of the Structure
       - requirements.txt
+      - structure_config.yaml
 run:
   main_file: structure.py
