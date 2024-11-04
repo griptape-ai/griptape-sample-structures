@@ -31,7 +31,3 @@ You can create a run via the API or the UI. When creating runs in the UI, you wi
 -p
 "What is the answer to the universe?"
 ```
-
-#### As a Data Source
-
-Once created in Griptape Cloud, you can specify this [Structure as a Data Source](https://docs.griptape.ai/latest/griptape-cloud/data-sources/create-data-source/#Structure(Experimental)) if you wish to generate observability metrics in Griptape Cloud.
