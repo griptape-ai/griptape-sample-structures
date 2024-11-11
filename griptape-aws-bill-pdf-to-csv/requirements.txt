@@ -1,4 +1,4 @@
 python-dotenv==1.0.*
-griptape[drivers-file-manager-griptape-cloud] @ git+https://github.com/griptape-ai/griptape@dev
+griptape==0.34.2
 boto3==1.35.*
 pypdf==5.0.*
