@@ -1,4 +1,4 @@
-This sample takes a Bucket and Asset that represent an AWS Bill PDF stored in Griptape Cloud and converts the bill into a CSV. Each item in the bill is converted to a row in the CSV. The CSV is uploaded back to the Bucket provided as a new Asset in addition to being returned by the Structure as a ListArtifact. This sample demonstrates both Griptape Cloud's Bucket and Asset resources and how Griptape can be used to automate previously manual/hardcoded processes. One such process is identifying if a PDF value with identical formatting is a `AWS Region` or an `AWS Service`.
+This sample takes a Bucket and Asset that represent an AWS Bill PDF stored in Griptape Cloud and converts the bill into a CSV. Each item in the bill is converted to a row in the CSV. The CSV is uploaded to the Bucket as a new Asset in addition to being returned by the Structure as a ListArtifact. This sample demonstrates both Griptape Cloud's Bucket and Asset resources and how Griptape can be used to automate previously manual/hardcoded processes. One such process is identifying if a PDF value with identical formatting is a `AWS Region` or an `AWS Service`.
 
 [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-aws-bill-pdf-to-csv&type=sample)
 
@@ -19,6 +19,8 @@ GT_CLOUD_API_KEY=
 ## Running this Sample
 
 This sample converts an AWS bill PDF into a CSV. This is most useful for customers who have not enabled [Enhanced Billing CSV Reports](https://aws.amazon.com/about-aws/whats-new/2012/06/05/aws-billing-enables-enhanced-csv-reports-and-programmatic-access/) or for organization members who cannot download such reports. If available to you, the enhanced reports do contain more information that is not available in the PDF (and therefore cannot be derived into the CSV by this sample).
+
+Assets are contained within a Bucket. This sample is configured to use the same Bucket for both the source Asset and the destination Asset. Asset file names must be unique within the same Bucket.
 
 ### Locally
 
