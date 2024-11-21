@@ -1,0 +1,11 @@
+version: 1.0
+runtime: python3
+runtime_version: 3.11
+build:
+  requirements_file: requirements.txt
+  cache_build_dependencies:
+    enabled: true
+    watched_files:
+      - requirements.txt
+run:
+  main_file: main.py
