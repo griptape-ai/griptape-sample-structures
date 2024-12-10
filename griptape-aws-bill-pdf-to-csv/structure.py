@@ -70,7 +70,7 @@ class AWSBillPdfLoader(BaseFileLoader[TextArtifact]):
     ) -> ListArtifact:
         reader = pypdf.PdfReader(BytesIO(data), strict=True)
         artifacts = []
-        for page in reader.pages[1:4]:
+        for page in reader.pages:
             extracted_text = page.extract_text(extraction_mode="layout")
             artifacts.extend(self._text_to_artifacts(extracted_text))
         return ListArtifact(artifacts)
