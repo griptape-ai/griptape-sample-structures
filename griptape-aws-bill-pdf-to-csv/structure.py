@@ -70,7 +70,7 @@ class AWSBillPdfLoader(BaseFileLoader[TextArtifact]):
     ) -> ListArtifact:
         reader = pypdf.PdfReader(BytesIO(data), strict=True)
         artifacts = []
-        for page in reader.pages:
+        for page in reader.pages[1:4]:
             extracted_text = page.extract_text(extraction_mode="layout")
             artifacts.extend(self._text_to_artifacts(extracted_text))
         return ListArtifact(artifacts)
@@ -174,7 +174,7 @@ if __name__ == "__main__":
                 EventListener(
                     # By default, GriptapeCloudEventListenerDriver uses the api key provided
                     # in the GT_CLOUD_API_KEY environment variable.
-                    driver=event_driver,
+                    event_listener_driver=event_driver,
                 ),
             ]
         )
