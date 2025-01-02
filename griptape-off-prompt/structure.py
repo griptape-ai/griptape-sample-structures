@@ -1,15 +1,17 @@
-from griptape.config import AnthropicStructureConfig
-from griptape.drivers import AnthropicPromptDriver
-from griptape.structures import Agent
-from griptape.tools import TaskMemoryClient, WebScraper
-from griptape.drivers import GriptapeCloudEventListenerDriver
-from griptape.events import EventListener
-
-from typing import Optional
-
-import os
 import argparse
+import os
+
 from dotenv import load_dotenv
+from griptape.configs import Defaults
+from griptape.configs.drivers import DriversConfig
+from griptape.drivers import (
+    AnthropicPromptDriver,
+    GriptapeCloudEventListenerDriver,
+    OpenAiEmbeddingDriver,
+)
+from griptape.events import EventBus, EventListener
+from griptape.structures import Agent
+from griptape.tools import PromptSummaryTool, WebScraperTool
 
 
 def is_running_in_managed_environment() -> bool:
@@ -30,31 +32,17 @@ def get_listener_api_key() -> str:
     return api_key
 
 
-def on_prompt_agent(event_driver: Optional[GriptapeCloudEventListenerDriver]):
+def on_prompt_agent() -> Agent:
     return Agent(
-        config=AnthropicStructureConfig(
-            prompt_driver=AnthropicPromptDriver(
-                model="claude-3-5-sonnet-20240620",
-                api_key=os.environ["ANTHROPIC_API_KEY"],
-            ),
-        ),
-        event_listeners=[EventListener(driver=event_driver)],
-        tools=[WebScraper()],  # default behavior is off_prompt=False
+        tools=[WebScraperTool()],  # default behavior is off_prompt=False
     )
 
 
-def off_prompt_agent(event_driver: Optional[GriptapeCloudEventListenerDriver]):
+def off_prompt_agent() -> Agent:
     return Agent(
-        config=AnthropicStructureConfig(
-            prompt_driver=AnthropicPromptDriver(
-                model="claude-3-5-sonnet-20240620",
-                api_key=os.environ["ANTHROPIC_API_KEY"],
-            ),
-        ),
-        event_listeners=[EventListener(driver=event_driver)],
         tools=[
-            WebScraper(off_prompt=True),
-            TaskMemoryClient(),
+            WebScraperTool(off_prompt=True),
+            PromptSummaryTool(),
         ],
     )
 
@@ -79,16 +67,22 @@ if __name__ == "__main__":
 
     if is_running_in_managed_environment():
         event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
+        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
     else:
         load_dotenv()
-        event_driver = None
 
-    agent = (
-        off_prompt_agent(event_driver)
-        if args.off_prompt
-        else on_prompt_agent(event_driver)
-    )
+        Defaults.drivers_config = DriversConfig(
+            prompt_driver=AnthropicPromptDriver(
+                model="claude-3-sonnet-20240229",
+                api_key=os.environ["ANTHROPIC_API_KEY"],
+            ),
+            embedding_driver=OpenAiEmbeddingDriver(),
+        )
+
+    agent = off_prompt_agent() if args.off_prompt else on_prompt_agent()
 
     result = agent.run(
         f"Summarize the following website into a text message you would send a friend limited to 160 characters: { website }"
     )
+
+
