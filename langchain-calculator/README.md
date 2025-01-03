@@ -2,6 +2,9 @@ This example is basic Langchain code, but mainly intended to show you how you co
 
 [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=langchain-calculator&type=sample)
 
+> ⚠️ **NOTE:** The repository URL is hardcoded to griptape-ai in the Deploy to Griptape Cloud button. It is not dynamically updated as a variable. If you fork this repo, update the URL accordingly. 
+> 
+
 ## Requirements
 
 - [Open AI Key](https://platform.openai.com/api-keys)
