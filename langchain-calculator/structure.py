@@ -6,7 +6,7 @@ from langchain_core.runnables import (
 )
 
 from griptape.artifacts import TextArtifact
-from griptape.events import FinishStructureRunEvent
+from griptape.events import EventBus, EventListener, FinishStructureRunEvent
 from griptape.drivers import GriptapeCloudEventListenerDriver
 
 from dotenv import load_dotenv
@@ -60,8 +60,15 @@ done_event = FinishStructureRunEvent(
 )
 
 api_key = os.getenv("GT_CLOUD_API_KEY")
-event_driver = GriptapeCloudEventListenerDriver(
-    api_key=api_key
-)
 
-event_driver.publish_event(done_event, flush=True)
+
+def is_running_in_managed_environment() -> bool:
+    return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
+
+
+if is_running_in_managed_environment():
+    event_driver = GriptapeCloudEventListenerDriver(api_key=api_key)
+    EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
+    event_driver.publish_event(done_event, flush=True)
+else:
+    print("Not running in Griptape Cloud - skipping event publishing")

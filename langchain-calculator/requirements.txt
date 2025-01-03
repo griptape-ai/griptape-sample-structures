@@ -1,4 +1,4 @@
 python-dotenv==1.0.1
 langchain==0.1.19
 langchain-openai==0.1.6
-griptape==0.28.2
+griptape==1.1.0
