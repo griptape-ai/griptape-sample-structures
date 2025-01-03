@@ -8,6 +8,7 @@ from griptape.drivers import (
     AnthropicPromptDriver,
     GriptapeCloudEventListenerDriver,
     OpenAiEmbeddingDriver,
+    LocalVectorStoreDriver
 )
 from griptape.events import EventBus, EventListener
 from griptape.structures import Agent
@@ -76,7 +77,9 @@ if __name__ == "__main__":
                 model="claude-3-sonnet-20240229",
                 api_key=os.environ["ANTHROPIC_API_KEY"],
             ),
-            embedding_driver=OpenAiEmbeddingDriver(),
+            vector_store_driver=LocalVectorStoreDriver(
+                embedding_driver=OpenAiEmbeddingDriver()
+            ),
         )
 
     agent = off_prompt_agent() if args.off_prompt else on_prompt_agent()
