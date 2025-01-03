@@ -9,23 +9,16 @@ To learn more, see the [Griptape blog post on Task Memory and Off-Prompt](https:
 ## Requirements
 
 - [Anthropic API Key](https://console.anthropic.com/settings/keys)
-- [Voyage API Key](https://dash.voyageai.com/)
+- [Open AI Key](https://platform.openai.com/api-keys)
 - [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 
-env
-```
-# None Needed
-```
-
-env_secrets
 ```
 ANTHROPIC_API_KEY=<encrypted_value> # Fill in with your own key
-VOYAGE_API_KEY=<encrypted_value> # Fill in with your own key
-GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
 # OPENAI KEY IS REQUIRED FOR OFF-PROMPT FLAG
 OPENAI_API_KEY=<encrypted_value> # Fill in with your own key. 
+GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
 ```
 
 ## Running this Sample

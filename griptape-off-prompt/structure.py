@@ -72,15 +72,15 @@ if __name__ == "__main__":
     else:
         load_dotenv()
 
-        Defaults.drivers_config = DriversConfig(
-            prompt_driver=AnthropicPromptDriver(
-                model="claude-3-sonnet-20240229",
-                api_key=os.environ["ANTHROPIC_API_KEY"],
-            ),
-            vector_store_driver=LocalVectorStoreDriver(
-                embedding_driver=OpenAiEmbeddingDriver()
-            ),
-        )
+    Defaults.drivers_config = DriversConfig(
+        prompt_driver=AnthropicPromptDriver(
+            model="claude-3-sonnet-20240229",
+            api_key=os.environ["ANTHROPIC_API_KEY"],
+        ),
+        vector_store_driver=LocalVectorStoreDriver(
+            embedding_driver=OpenAiEmbeddingDriver()
+        ),
+    )
 
     agent = off_prompt_agent() if args.off_prompt else on_prompt_agent()
 
