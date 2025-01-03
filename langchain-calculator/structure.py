@@ -69,6 +69,7 @@ def is_running_in_managed_environment() -> bool:
 if is_running_in_managed_environment():
     event_driver = GriptapeCloudEventListenerDriver(api_key=api_key)
     EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
-    event_driver.publish_event(done_event, flush=True)
+    event_driver.publish_event(done_event)
 else:
     print("Not running in Griptape Cloud - skipping event publishing")
+    print("result: ", result)
