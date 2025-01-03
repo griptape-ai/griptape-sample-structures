@@ -22,6 +22,8 @@ env_secrets
 ANTHROPIC_API_KEY=<encrypted_value> # Fill in with your own key
 VOYAGE_API_KEY=<encrypted_value> # Fill in with your own key
 GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
+# OPENAI KEY IS REQUIRED FOR OFF-PROMPT FLAG
+OPENAI_API_KEY=<encrypted_value> # Fill in with your own key. 
 ```
 
 ## Running this Sample
