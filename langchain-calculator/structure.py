@@ -6,7 +6,7 @@ from langchain_core.runnables import (
 )
 
 from griptape.artifacts import TextArtifact
-from griptape.events import FinishStructureRunEvent
+from griptape.events import EventBus, EventListener, FinishStructureRunEvent
 from griptape.drivers import GriptapeCloudEventListenerDriver
 
 from dotenv import load_dotenv
@@ -32,6 +32,18 @@ def exponentiate(base: int, exponent: int) -> int:
     "Exponentiate the base to the exponent power."
     return base**exponent
 
+def get_listener_api_key() -> str:
+    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
+    if is_running_in_managed_environment() and not api_key:
+        print(
+            """
+              ****WARNING****: No value was found for the 'GT_CLOUD_API_KEY' environment variable.
+              This environment variable is required when running in Griptape Cloud for authorization.
+              You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/keys .
+              Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
+              """
+        )
+    return api_key
 
 llm = ChatOpenAI(model="gpt-4-turbo")
 tools = [multiply, exponentiate, add]
@@ -60,8 +72,16 @@ done_event = FinishStructureRunEvent(
 )
 
 api_key = os.getenv("GT_CLOUD_API_KEY")
-event_driver = GriptapeCloudEventListenerDriver(
-    api_key=api_key
-)
 
-event_driver.publish_event(done_event, flush=True)
+
+def is_running_in_managed_environment() -> bool:
+    return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
+
+
+if is_running_in_managed_environment():
+    event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
+    EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
+    EventBus.publish_event(done_event, flush=True)
+else:
+    print("Not running in Griptape Cloud - skipping event publishing")
+    print("result: ", result)
