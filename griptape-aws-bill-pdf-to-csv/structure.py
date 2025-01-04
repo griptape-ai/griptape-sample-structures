@@ -9,7 +9,6 @@ import pypdf
 from attrs import define
 from dotenv import load_dotenv
 from io import BytesIO
-from typing import Optional, cast
 
 from griptape.artifacts import TextArtifact, ListArtifact
 from griptape.drivers import GriptapeCloudEventListenerDriver, GriptapeCloudFileManagerDriver
@@ -215,6 +214,6 @@ if __name__ == "__main__":
             output_task_input=task_input, output_task_output=list_artifact
         )
 
-        EventBus.add_event_listener(EventListener(driver=event_driver))
+        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
         EventBus.publish_event(done_event, flush=True)
         print("Published final event")

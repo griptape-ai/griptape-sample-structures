@@ -1,16 +1,16 @@
-from griptape.config import (
-    AnthropicStructureConfig,
-    StructureConfig,
-    GoogleStructureConfig,
-    OpenAiStructureConfig,
+from griptape.configs import Defaults
+from griptape.configs.drivers import (
+    AnthropicDriversConfig,
+    GoogleDriversConfig,
+    OpenAiDriversConfig,
 )
 from griptape.structures import Agent
 from griptape.drivers import GriptapeCloudEventListenerDriver
-from griptape.events import EventListener
-from typing import Optional
+from griptape.events import EventBus, EventListener
 import os
 import argparse
 from dotenv import load_dotenv
+
 
 def is_running_in_managed_environment() -> bool:
     return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
@@ -32,20 +32,11 @@ def get_listener_api_key() -> str:
 
 def get_config(provider):
     if provider == "openai":
-        return OpenAiStructureConfig()
+        return OpenAiDriversConfig()
     if provider == "anthropic":
-        return AnthropicStructureConfig()
+        return AnthropicDriversConfig()
     if provider == "google":
-        return GoogleStructureConfig()
-
-
-def get_agent(
-    config: StructureConfig, event_driver: Optional[GriptapeCloudEventListenerDriver]
-):
-    return Agent(
-        config=config,
-        event_listeners=[EventListener(driver=event_driver)],
-    )
+        return GoogleDriversConfig()
 
 
 if __name__ == "__main__":
@@ -77,11 +68,11 @@ if __name__ == "__main__":
 
     if is_running_in_managed_environment():
         event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
+        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
     else:
         load_dotenv()
-        event_driver = None
 
-    config = get_config(provider)
-    agent = get_agent(config, event_driver)
+    Defaults.drivers_config = get_config(provider)
+    agent = Agent()
 
     result = agent.run(f"Briefly explain how { subject } work to { audience }.")
