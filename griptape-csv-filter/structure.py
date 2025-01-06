@@ -15,7 +15,6 @@ from griptape.drivers import (
 )
 from griptape.events import EventBus, EventListener, FinishStructureRunEvent
 from griptape.loaders import CsvLoader
-from griptape.utils import load_file
 from griptape.configs import defaults_config
 from griptape.configs.drivers import DriversConfig
 
@@ -59,16 +58,11 @@ def filter_spreadsheet(filter_by, input_file) -> list:
     output_json = agent.output.to_text()
     column_names = json.loads(output_json)
 
-    csv_data_artifacts = CsvLoader().load(load_file(input_file))
-
-    if isinstance(csv_data_artifacts, ErrorArtifact):
-        return []
-
-    extracted_data = []
-    for row in csv_data_artifacts:
-        item = row.value
-        extracted_item = {col: item.get(col, "") for col in column_names}
-        extracted_data.append(extracted_item)
+    with open(input_file, "r") as file:
+        reader = csv.DictReader(file)
+        extracted_data = [
+            {col: row[col] for col in column_names if col in row} for row in reader
+        ]
 
     return extracted_data
 
@@ -143,9 +137,6 @@ if __name__ == "__main__":
         writer.writerows(extracted_data)
     print("... Done writing file")
 
-    final_data = load_file(output_file_path_local)
-    print(final_data.decode())
-
     try:
         print("Uploading to S3...")
         s3_client.upload_file(output_file_path_local, bucket, output_file_path_local)
@@ -156,13 +147,13 @@ if __name__ == "__main__":
     # This code is if you run this Structure as a GTC DC
     if event_driver is not None:
         print("Publishing final event...")
-        artifacts = CsvLoader().load(final_data)
+        artifacts = CsvLoader().load(output_file_path_local)
 
         task_input = TextArtifact(value=None)
         done_event = FinishStructureRunEvent(
-            output_task_input=task_input, output_task_output=ListArtifact(artifacts)
+            output_task_input=task_input, output_task_output=artifacts
         )
 
-        EventBus.add_event_listener(EventListener(driver=event_driver))
+        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
         EventBus.publish_event(done_event, flush=True)
         print("Published final event")

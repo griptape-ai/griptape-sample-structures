@@ -1,7 +1,8 @@
 .venv
 .env
 .idea
+.DS_Store
 
-.idea
 downloaded
 output
+input
