@@ -1,4 +1,2 @@
 python-dotenv==1.0.1
-# Pinning to specific commit for reproducibility
-# https://github.com/griptape-ai/griptape/commit/3542d06fa986059dcea11b5cbec5fe738c37ba72
-griptape @ git+https://github.com/griptape-ai/griptape@3542d06
+griptape==1.1.0
