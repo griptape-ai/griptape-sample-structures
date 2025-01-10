@@ -9,10 +9,17 @@ from griptape.drivers import (
 from griptape.drivers import (
     GriptapeCloudEventListenerDriver,
     GriptapeCloudRulesetDriver,
+    GriptapeCloudVectorStoreDriver
 )
 from griptape.events import EventListener, EventBus
 from griptape.rules.ruleset import Ruleset
-from griptape.tools import GriptapeCloudKnowledgeBaseTool, BaseTool
+from griptape.tools import BaseTool, RagTool
+from griptape.engines.rag import RagEngine
+from griptape.engines.rag.modules import (
+    PromptResponseRagModule,
+    VectorStoreRetrievalRagModule,
+)
+from griptape.engines.rag.stages import ResponseRagStage, RetrievalRagStage
 import argparse
 
 
@@ -49,12 +56,26 @@ def get_knowledge_base_tools(knowledge_base_id: Optional[str]) -> list[BaseTool]
     if knowledge_base_id is None:
         return []
     else:
+        engine = RagEngine(
+        retrieval_stage=RetrievalRagStage(
+            retrieval_modules=[
+                VectorStoreRetrievalRagModule(
+                    vector_store_driver=GriptapeCloudVectorStoreDriver(
+                        api_key=get_listener_api_key(),
+                        knowledge_base_id=knowledge_base_id,
+                    )
+                )
+            ]
+        ),
+        response_stage=ResponseRagStage(
+            response_modules=[PromptResponseRagModule()],
+        ),
+    )
         return [
-            GriptapeCloudKnowledgeBaseTool(
-                knowledge_base_id=knowledge_base_id,
-                api_key=get_listener_api_key(),
-                base_url=get_base_url(),
-            )
+            RagTool(
+            description="Contains information about the company and its operations",
+            rag_engine=engine,
+        ),
         ]
 
 
@@ -127,7 +148,6 @@ if __name__ == "__main__":
         )
     else:
         load_dotenv()
-        event_driver = None
 
     Defaults.drivers_config.conversation_memory_driver = (
         GriptapeCloudConversationMemoryDriver(
