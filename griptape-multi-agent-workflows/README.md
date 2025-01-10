@@ -1,6 +1,6 @@
 In this example we implement a multi-agent Workflow. We have a single "Researcher" Agent that conducts research on a topic, and then fans out to multiple "Writer" Agents to write blog posts based on the research.
 
-By splitting up our workloads across multiple Structures, we can parallelize the work and leverage the strengths of each Agent. The Researcher can focus on gathering data and insights, while the Writers can focus on crafting engaging narratives.
+By splitting up our workloads across multiple structures, we can parallelize the work and leverage the strengths of each Agent. The Researcher can focus on gathering data and insights, while the Writers can focus on crafting engaging narratives. The Worklow structure ties the the runs of the other two Agents together to get the final result.
 
 ## Requirements
 
@@ -10,11 +10,11 @@ By splitting up our workloads across multiple Structures, we can parallelize the
 
 ## Configuration
 
-This example requires three separate Structures each with their own configuration.
+This example requires three separate structures each with their own configuration. You should deploy the Researcher and Writer structures first to Griptape Cloud and then provide the IDs of those structures to the Workflow structure.
 
 ### Researcher Agent
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?org=griptape-ai&repo=griptape-sample-structures&branch=main&file=griptape-multi-agent-workflows%2Fresearcher.py&name=Researcher&type=github)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=github-creation&org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_researcher.yaml&name=Researcher)
 
 ```
 GOOGLE_API_SEARCH_ID=<id>
@@ -24,7 +24,7 @@ OPENAI_API_KEY=<key>
 
 ### Writer Agent
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?org=griptape-ai&repo=griptape-sample-structures&branch=main&file=griptape-multi-agent-workflows%2Fwriter.py&name=Writer&type=github)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=github-creation&org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_writer.yaml&name=Writer)
 
 ```
 OPENAI_API_KEY=<key>
@@ -33,7 +33,7 @@ GT_CLOUD_API_KEY=<key>
 
 ### Main Workflow
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?org=griptape-ai&repo=griptape-sample-structures&branch=main&file=griptape-multi-agent-workflows%2Fworkflow.py&name=Workflow&type=github)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=github-creation&org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_workflow.yaml&name=Workflow)
 
 ```
 OPENAI_API_KEY=<key>
