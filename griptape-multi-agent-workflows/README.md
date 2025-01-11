@@ -20,6 +20,7 @@ This example requires three separate structures each with their own configuratio
 GOOGLE_API_SEARCH_ID=<id>
 GOOGLE_API_KEY=<key>
 OPENAI_API_KEY=<key>
+GT_CLOUD_API_KEY=<key>
 ```
 
 ### Writer Agent
