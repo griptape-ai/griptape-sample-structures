@@ -8,4 +8,4 @@ build:
     watched_files: # List of files that will trigger a full rebuild of the Structure
       - requirements.txt
 run:
-  main_file: structure.py
+  main_file: researcher.py
