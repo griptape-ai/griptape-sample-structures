@@ -56,6 +56,7 @@ if __name__ == "__main__":
             structure_run_driver=GriptapeCloudStructureRunDriver(
                 api_key=os.environ["GT_CLOUD_API_KEY"],
                 structure_id=os.environ["GT_RESEARCH_STRUCTURE_ID"],
+                structure_run_max_wait_time_attempts=30 # takes 50 seconds to run
             ),
         ),
     )
