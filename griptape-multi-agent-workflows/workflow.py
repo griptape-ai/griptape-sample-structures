@@ -1,8 +1,12 @@
 import os
 
-from griptape.drivers import GriptapeCloudStructureRunDriver
+from griptape.drivers import (
+    GriptapeCloudStructureRunDriver,
+    GriptapeCloudEventListenerDriver,
+)
 from griptape.structures import Workflow
 from griptape.tasks import PromptTask, StructureRunTask
+from griptape.events import EventBus, EventListener
 
 WRITERS = [
     {
@@ -17,7 +21,29 @@ WRITERS = [
     },
 ]
 
+def get_listener_api_key() -> str:
+    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
+    if not api_key:
+        print(
+            """
+              ****WARNING****: No value was found for the 'GT_CLOUD_API_KEY' environment variable.
+              This environment variable is required when running in Griptape Cloud for authorization.
+              You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/keys .
+              Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
+              """
+        )
+    return api_key
+
 if __name__ == "__main__":
+    # Set up the EventBus
+    EventBus.add_event_listener(
+        EventListener(
+            event_listener_driver=GriptapeCloudEventListenerDriver(
+                api_key=get_listener_api_key()
+            )
+        )
+    )
+
     # Build the team
     team = Workflow()
     research_task = team.add_task(
@@ -27,10 +53,10 @@ if __name__ == "__main__":
                 Pinpoint major trends, breakthroughs, and their implications for various industries.""",
             ),
             id="research",
-            driver=GriptapeCloudStructureRunDriver(
+            structure_run_driver=GriptapeCloudStructureRunDriver(
                 api_key=os.environ["GT_CLOUD_API_KEY"],
                 structure_id=os.environ["GT_RESEARCH_STRUCTURE_ID"],
-                # async_run=True,
+                structure_run_max_wait_time_attempts=30 # takes 50 seconds to run
             ),
         ),
     )
@@ -55,7 +81,7 @@ if __name__ == "__main__":
                 Insights:
                 {{ parent_outputs["research"] }}""",
                 ),
-                driver=GriptapeCloudStructureRunDriver(
+                structure_run_driver=GriptapeCloudStructureRunDriver(
                     api_key=os.environ["GT_CLOUD_API_KEY"],
                     structure_id=os.environ["GT_WRITER_STRUCTURE_ID"],
                     async_run=True,
