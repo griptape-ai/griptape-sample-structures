@@ -47,9 +47,8 @@ GT_WRITER_STRUCTURE_ID=<writer_structure_id>
 
 ### Locally
 
-```
-python workflow.py
-```
+This sample as written is intended to have each of the structures deployed to Griptape Cloud. If you wish to recreate these structures in a purely local workflow, then you will need to replace the `GriptapeCloudStructureRunDriver` with `LocalStructureRunDriver`. [Read more about Structure Run Drivers](https://docs.griptape.ai/stable/griptape-framework/drivers/structure-run-drivers/).
+
 
 ### Griptape Cloud
 
