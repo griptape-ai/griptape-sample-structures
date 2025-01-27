@@ -50,7 +50,41 @@ def app_mention(body: dict, payload: dict, say: Say, client: WebClient):
     respond_in_thread(body, payload, say, client)
 
 
+def should_respond_for_channel(payload: dict) -> bool:
+    channel = payload.get("channel")
+    channel_type = payload.get("channel_type")
+
+    def get_channels_from_env(env_var: str) -> list:
+        return (
+            os.environ[env_var].split(",")
+            if env_var in os.environ and os.environ[env_var] != ""
+            else []
+        )
+
+    filter_in = get_channels_from_env("FILTER_IN_CHANNELS")
+    filter_out = get_channels_from_env("FILTER_OUT_CHANNELS")
+    disable_im = os.environ.get("DISABLE_IM", "false").lower() == "true"
+
+    if len(filter_in) > 0 and channel not in filter_in:
+        logger.info(f"Filtering to include channels: {filter_in}")
+        return False
+
+    if channel in filter_out:
+        logger.info(f"Filtering to exclude channels: {filter_out}")
+        return False
+
+    if disable_im and channel_type == "im":
+        logger.info(f"IMs are: {'disabled' if disable_im else 'enabled'}")
+        return False
+
+    return True
+
+
 def respond_in_thread(body: dict, payload: dict, say: Say, client: WebClient):
+
+    if not should_respond_for_channel(payload):
+        return
+
     team_id = body["team_id"]
     app_id = body["api_app_id"]
     thread_ts = payload.get("thread_ts", payload["ts"])
