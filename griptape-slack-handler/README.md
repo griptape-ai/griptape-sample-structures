@@ -54,6 +54,36 @@ The bot will always respond with a three-dots gif to indicate it has started pro
 
 There are a few ways to configure other behavior of the bot at runtime.
 
+### Channel Filtering
+
+Set environment variables to include or exclude specific Slack channels that the Slackbot Structure should respond in:
+
+The `FILTER_IN_CHANNELS` configuration overrides the `FILTER_OUT_CHANNELS` if both are provided. The following configuration will allow the bot to only respond in channels "A012BA2A9DG" and "B012BA2A9DG".
+
+```bash
+FILTER_IN_CHANNELS="A012BA2A9DG,B012BA2A9DG"
+```
+
+The following configuration will restrict the bot from responding in only these channels "A012BA2A9DG" and "B012BA2A9DG".
+
+```bash
+FILTER_OUT_CHANNELS="A012BA2A9DG,B012BA2A9DG"
+```
+
+The following configuration will disable communication with the bot in direct messages:
+
+```bash
+DISABLE_IM="true"
+```
+
+#### How to find the Channel ID
+
+To find the Channel ID for a particular Slack channel:
+
+1. Right click the channel
+1. Click `View channel details`
+1. Locate the Channel ID at the bottom of the window
+
 ### Dynamic Rulesets
 
 Using the `GriptapeCloudRulesetDriver` allows the bot to pull in Rulesets for every event that comes through. For every message, the bot will reach out to Griptape Cloud and try to find [Rulesets](https://cloud.griptape.ai/rulesets) that are aliased with the following values:
