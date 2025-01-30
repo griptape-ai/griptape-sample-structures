@@ -1,6 +1,6 @@
 This sample allows you to deploy a Griptape Agent configured with the Griptape Cloud Conversation Memory Driver, Ruleset Driver, and Knowledge Base Tool.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-chat-memory-agent&type=sample)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-chat-memory-agent&type=sample&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
 
 ## Requirements
 

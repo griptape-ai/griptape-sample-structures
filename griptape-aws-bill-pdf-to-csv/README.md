@@ -1,6 +1,6 @@
 This sample takes a Bucket and Asset that represent an AWS Bill PDF stored in Griptape Cloud and converts the bill into a CSV. Each item in the bill is converted to a row in the CSV. The CSV is uploaded to the Bucket as a new Asset in addition to being returned by the Structure as a ListArtifact. This sample demonstrates both Griptape Cloud's Bucket and Asset resources and how Griptape can be used to automate previously manual/hardcoded processes. One such process is identifying if a PDF value with identical formatting is a `AWS Region` or an `AWS Service`.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-aws-bill-pdf-to-csv&type=sample)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-aws-bill-pdf-to-csv&type=sample&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
 
 ## Requirements
 
