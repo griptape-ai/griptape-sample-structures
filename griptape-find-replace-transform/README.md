@@ -10,7 +10,7 @@ This sample takes in any text input, find a specific word or phrase in that inpu
 
 env_secrets
 ```
-GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
+GT_CLOUD_API_KEY=<encrypted_value>
 ```
 
 ## Running this Sample
