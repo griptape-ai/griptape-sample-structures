@@ -1,28 +1,21 @@
-This sample takes in any text input, find a specific word or phrase in that input, and replaces it with a different word or phrase. It is intended to serve as an example of a Structure as a Transform to use with [Griptape Cloud Data Sources](https://docs.griptape.ai/stable/griptape-cloud/data-sources/create-data-source/).
+This sample takes in any text input, find a specific word or phrase in that input, and replaces it with a different word or phrase. It is intended to serve as an example of a structure as a transform to use with [Griptape Cloud Data Sources](https://docs.griptape.ai/stable/griptape-cloud/data-sources/create-data-source/).
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-find-replace-transform&type=sample&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-find-replace-transform&type=sample&env-var=GT_CLOUD_API_KEY)
 
 ## Requirements
 
-- [Open AI Key](https://platform.openai.com/api-keys)
 - [Griptape Cloud Key](https://cloud.griptape.ai/configuration/api-keys)
 
 ## Configuration
 
-env
-```
-# None Needed
-```
-
 env_secrets
 ```
-OPENAI_API_KEY=<encrypted_value> # Fill in with your own key
 GT_CLOUD_API_KEY=<encrypted_value> # Fill in with your own key
 ```
 
 ## Running this Sample
 
-The prompt defaults to: `Replace the word {find_word} with {replace_with} in {artifacts}`. The first positional parameter will be the input you wish to transform. You can optionally specify the `-f` or `-r` parameters to change the `find_word` or `replace_with` values of the prompt.
+The first positional parameter will be the input you wish to transform. You can specify the `-f` or `-r` parameters to change the `find_word` or `replace_with` values of the prompt.
 
 ### Locally
 
@@ -49,7 +42,7 @@ You can create a run via the API or the UI. When creating runs in the UI, you wi
 
 #### As a Transform
 
-Once created in Griptape Cloud, you can specify this Structure on any of your Data Sources and provide JUST the find and replace words (not the input artifacts), the system will handle the rest.
+Once created in Griptape Cloud, you can specify this structure on any of your data sources and provide JUST the find and replace words (not the input artifacts), the system will handle the rest.
 
 ```
 -f
@@ -58,4 +51,4 @@ Once created in Griptape Cloud, you can specify this Structure on any of your Da
 "Wonderbread"
 ```
 
-This goes for any Structure you wish to run as a Transform. The Structure needs to supprt the first positional argument as a list of `Artifacts` and output a `TextArtifact` or `ListArtifact` (standard for text-based Structures).
+This goes for any structure you wish to run as a transform. The structure needs to supprt the first positional argument as a list of `Artifacts` and output a `TextArtifact` or `ListArtifact` (standard for text-based Structures).
