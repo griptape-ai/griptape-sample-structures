@@ -2,9 +2,6 @@
     {
         "primaryText": "AWS Bill PDF Converter",
         "description": "Convert an Amazon Web Services (AWS) bill from PDF form at to a spreadsheet-friendly CSV file.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-aws-bill-pdf-to-csv",
         "requiredEnv": [
             "OPENAI_API_KEY",
@@ -14,9 +11,6 @@
     {
         "primaryText": "Chat Agent with Memory",
         "description": "Deploy a customizable Q&A chat agent configured with conversation memory, a ruleset driver, and a knowledge base tool.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-chat-memory-agent",
         "requiredEnv": [
             "OPENAI_API_KEY",
@@ -26,9 +20,6 @@
     {
         "primaryText": "Natural Language Spreadsheet Filter",
         "description": "Create a knowledge base from a CSV file, using natural language semantic filtering to select which columns to include.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-csv-filter",
         "requiredEnv": [
             "AWS_ACCESS_KEY_ID",
@@ -40,9 +31,6 @@
     {
         "primaryText": "Text Replacement Tool",
         "description": "Find and replace words and phrases in a text input, to demonstrate using structures to perform ETL transforms.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-find-replace-transform",
         "requiredEnv": [
             "GT_CLOUD_API_KEY"
@@ -51,9 +39,6 @@
     {
         "primaryText": "OpenAI vs. Google vs. Anthropic Model Comparison",
         "description": "Easily switch LLMs to run head-to-head comparisons between OpenAI GPT, Google Gemini, and Anthropic Claude.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-model-switcher",
         "requiredEnv": [
             "OPENAI_API_KEY",
@@ -65,9 +50,6 @@
     {
         "primaryText": "Observability of LLMs and Agents",
         "description": "Deploy an agent configured with an observability driver that records performance metrics and event traces.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-observability",
         "requiredEnv": [
             "OPENAI_API_KEY",
@@ -77,9 +59,6 @@
     {
         "primaryText": "Off-Prompt(TM) Website Summarizer",
         "description": "Scrape a web page, write its contents to task memory, and control whether the LLM can access it to generate a summary.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "griptape-off-prompt",
         "requiredEnv": [
             "ANTHROPIC_API_KEY",
@@ -90,9 +69,6 @@
     {
         "primaryText": "LangChain App",
         "description": "Run LangChain code in Griptape Cloud, in this case a basic mathematical calculator.",
-        "requiresSampleName": true,
-        "form": "sample",
-        "icon": "griptape",
         "folderName": "langchain-calculator",
         "requiredEnv": [
             "OPENAI_API_KEY",
