@@ -15,7 +15,7 @@
         "primaryText": "Chat Agent with Memory",
         "description": "Deploy a customizable Q&A chat agent configured with conversation memory, a ruleset driver, and a knowledge base tool.",
         "requiresSampleName": true,
-        "form": true,
+        "form": "sample",
         "icon": "griptape",
         "folderName": "griptape-chat-memory-agent",
         "requiredEnv": [
@@ -35,7 +35,7 @@
             "ANTHROPIC_API_KEY",
             "AWS_SECRET_ACCESS_KEY",
             "GT_CLOUD_API_KEY"
-        ],
+        ]
     },
     {
         "primaryText": "Text Replacement Tool",
