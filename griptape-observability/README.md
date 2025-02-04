@@ -1,6 +1,6 @@
 This sample instruments a prompt-replying Griptape Agent with the [GriptapeCloudObservabilityDriver](https://docs.griptape.ai/latest/griptape-framework/drivers/observability-drivers/#griptape-cloud). The agent itself is as simple as it gets, this sample's purpose is to demonstrate how the observability can be introduced to Structures.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-observability&type=sample&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape-observability)
 
 ## Requirements
 

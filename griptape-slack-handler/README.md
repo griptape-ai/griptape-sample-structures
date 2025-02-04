@@ -2,8 +2,6 @@
 
 Fully deployable slack event handler deployable to a Griptape Cloud Structure.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=griptape-slack-handler&type=sample&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
-
 ## Requirements
 
 - [Open AI Key](https://platform.openai.com/api-keys)
