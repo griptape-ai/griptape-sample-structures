@@ -1,0 +1,78 @@
+[
+    {
+        "name": "AWS Bill PDF Converter",
+        "description": "Convert an Amazon Web Services (AWS) bill from PDF form at to a spreadsheet-friendly CSV file.",
+        "folderName": "griptape-aws-bill-pdf-to-csv",
+        "requiredEnv": [
+            "OPENAI_API_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "Chat Agent with Memory",
+        "description": "Deploy a customizable Q&A chat agent configured with conversation memory, a ruleset driver, and a knowledge base tool.",
+        "folderName": "griptape-chat-memory-agent",
+        "requiredEnv": [
+            "OPENAI_API_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "Natural Language Spreadsheet Filter",
+        "description": "Create a knowledge base from a CSV file, using natural language semantic filtering to select which columns to include.",
+        "folderName": "griptape-csv-filter",
+        "requiredEnv": [
+            "AWS_ACCESS_KEY_ID",
+            "ANTHROPIC_API_KEY",
+            "AWS_SECRET_ACCESS_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "Text Replacement Tool",
+        "description": "Find and replace words and phrases in a text input, to demonstrate using structures to perform ETL transforms.",
+        "folderName": "griptape-find-replace-transform",
+        "requiredEnv": [
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "OpenAI vs. Google vs. Anthropic Model Comparison",
+        "description": "Easily switch LLMs to run head-to-head comparisons between OpenAI GPT, Google Gemini, and Anthropic Claude.",
+        "folderName": "griptape-model-switcher",
+        "requiredEnv": [
+            "OPENAI_API_KEY",
+            "ANTHROPIC_API_KEY",
+            "GOOGLE_API_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "Observability of LLMs and Agents",
+        "description": "Deploy an agent configured with an observability driver that records performance metrics and event traces.",
+        "folderName": "griptape-observability",
+        "requiredEnv": [
+            "OPENAI_API_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "Off-Prompt(TM) Website Summarizer",
+        "description": "Scrape a web page, write its contents to task memory, and control whether the LLM can access it to generate a summary.",
+        "folderName": "griptape-off-prompt",
+        "requiredEnv": [
+            "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    },
+    {
+        "name": "LangChain App",
+        "description": "Run LangChain code in Griptape Cloud, in this case a basic mathematical calculator.",
+        "folderName": "langchain-calculator",
+        "requiredEnv": [
+            "OPENAI_API_KEY",
+            "GT_CLOUD_API_KEY"
+        ]
+    }
+]

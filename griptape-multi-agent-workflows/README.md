@@ -14,7 +14,7 @@ This example requires three separate structures each with their own configuratio
 
 ### Researcher Agent
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=github-creation&org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_researcher.yaml&name=Researcher&env-var=GOOGLE_API_SEARCH_ID&env-var=GOOGLE_API_KEY&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/github-creation?org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_researcher.yaml&name=Researcher&env-var=GOOGLE_API_SEARCH_ID&env-var=GOOGLE_API_KEY&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
 
 ```
 GOOGLE_API_SEARCH_ID=<id>
@@ -25,7 +25,7 @@ GT_CLOUD_API_KEY=<key>
 
 ### Writer Agent
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=github-creation&org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_writer.yaml&name=Writer&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/github-creation?org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_writer.yaml&name=Writer&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY)
 
 ```
 OPENAI_API_KEY=<key>
@@ -34,7 +34,7 @@ GT_CLOUD_API_KEY=<key>
 
 ### Main Workflow
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create?sample-name=github-creation&org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_workflow.yaml&name=Workflow&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY&env-var=GT_RESEARCH_STRUCTURE_ID&env-var=GT_WRITER_STRUCTURE_ID)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/github-creation?org=griptape-ai&repo=griptape-sample-structures&branch=main&structure-config-file=griptape-multi-agent-workflows/structure_config_workflow.yaml&name=Workflow&env-var=OPENAI_API_KEY&env-var=GT_CLOUD_API_KEY&env-var=GT_RESEARCH_STRUCTURE_ID&env-var=GT_WRITER_STRUCTURE_ID)
 
 ```
 OPENAI_API_KEY=<key>
