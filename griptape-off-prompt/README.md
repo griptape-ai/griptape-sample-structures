@@ -1,3 +1,5 @@
+Griptape offers the ability to store information in a configurable vector store called TaskMemory. This can be helpful in cases where you do not want to share information with model providers for security or compliance reasons. It can also help reduce token counts and allow your applications to handle context length constraints. 
+
 This sample summarizes your website of choice into a text message to a friend. You can toggle seamlessly between two Griptape Agents; one that utilizes [Griptape's Task Memory](https://docs.griptape.ai/latest/griptape-framework/structures/task-memory/) and one that does not. 
 
 To learn more, see the [Griptape blog post on Task Memory and Off-Prompt](https://www.griptape.ai/blog/the-power-of-task-memory-and-off-prompt-tm).

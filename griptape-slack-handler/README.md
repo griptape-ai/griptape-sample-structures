@@ -1,6 +1,6 @@
 # Griptape Cloud Structure-as-a-Slackbot
 
-Fully deployable slack event handler deployable to a Griptape Cloud Structure.
+Integrating intelligent LLM-powered applications with Slack is a very popular use-case for Griptape Cloud. This sample provides a complete implementation of an event handler for a Slack Application within a Griptape Structure, ready for you to deploy it on Griptape Cloud.
 
 ## Requirements
 

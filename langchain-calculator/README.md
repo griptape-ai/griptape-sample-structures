@@ -1,4 +1,6 @@
-This example is basic Langchain code, but mainly intended to show you how you could deploy and host your Langchain code on Griptape Cloud.
+Langchain is a popular alternative to the Griptape Framework. If you are building with Langchain, we would love you to experiment with the Griptape Framework. We think you will get better results more quickly, but in the meantime, this sample shows you how to run your Langchain-based applications on Griptape Cloud, and integrate with the powerful primitives that Griptape Cloud provides.  
+
+This example is basic Langchain code, intended to show you how you could deploy and host your Langchain code on Griptape Cloud.
 
 [![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/langchain-calculator)
 
