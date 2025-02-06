@@ -1,6 +1,6 @@
 This sample allows you to switch between three different providers and models with a simple explanation prompt in order to contrast responses. You can specify provider with the `-p` parameter and choose between `google`, `openai`, and `anthropic`. Read more about [Griptape's Structure Config](https://docs.griptape.ai/stable/griptape-framework/structures/configs/) to see what other providers Griptape is integrated with.
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape-model-switcher)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape_model_switcher)
 
 ## Requirements
 

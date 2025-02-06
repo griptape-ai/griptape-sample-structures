@@ -1,7 +1,7 @@
 Griptape Cloud has the capability to store conversation memory in threads, persisting this across sessions, providing summarization features that avoid excessive token consumption, and reducing the likelihood that applications with long running conversation histories will exceed context length limits.
 This sample combines these features with a Ruleset Driver and a Knowledge Base Tool, allowing you to chat with an agent that has a long term persistent memory of your conversation. 
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape-chat-memory-agent)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape_chat_memory_agent)
 
 ## Requirements
 

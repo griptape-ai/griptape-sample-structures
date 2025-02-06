@@ -1,6 +1,6 @@
 This sample takes in any text input, find a specific word or phrase in that input, and replaces it with a different word or phrase. It is intended to serve as an example of a structure as a transform to use with [Griptape Cloud Data Sources](https://docs.griptape.ai/stable/griptape-cloud/data-sources/create-data-source/).
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape-find-replace-transform)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape_find_replace_transform)
 
 ## Requirements
 
