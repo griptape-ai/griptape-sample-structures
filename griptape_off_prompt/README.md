@@ -4,7 +4,7 @@ This sample summarizes your website of choice into a text message to a friend. Y
 
 To learn more, see the [Griptape blog post on Task Memory and Off-Prompt](https://www.griptape.ai/blog/the-power-of-task-memory-and-off-prompt-tm).
 
-[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape-off-prompt)
+[![Deploy_to_Griptape](https://github.com/griptape-ai/griptape-cloud/assets/2302515/4fd57873-5c93-44a8-8fa3-ac1bf7d73bcc)](https://cloud.griptape.ai/structures/create/griptape_off_prompt)
 
 > ⚠️ **NOTE:** The repository URL is hardcoded to griptape-ai in the Deploy to Griptape Cloud button. It is not dynamically updated as a variable. If you fork this repo, update the URL accordingly. 
 > 
