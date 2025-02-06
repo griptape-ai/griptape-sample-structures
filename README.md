@@ -14,15 +14,15 @@ Once logged in, you can connect your GitHub account and [create a structure from
 
 | Sample | Folder |
 | -------- | ------- |
-| Multiple Agents on Griptape Cloud | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-multi-agent-workflows) |
-| Run your Langchain code on Griptape Cloud | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/langchain-calculator) |
-| Model Switcher with Griptape | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-model-switcher) |
-| Griptape Task Memory and Off Prompt | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-off-prompt) |
-| Griptape Chat Memory Agent | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-chat-memory-agent) |
-| Griptape Find and Replace Transform | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-find-replace-transform) |
-| Griptape Filter CSVs | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-csv-filter) |
-| Griptape AWS Bill PDF to CSV | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-aws-billd-pdf-to-csv) |
-| Griptape Slack Handler | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape-slack-handler) |
+| Multiple Agents on Griptape Cloud | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_multi_agent_workflows) |
+| Run your Langchain code on Griptape Cloud | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/langchain_calculator) |
+| Model Switcher with Griptape | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_model_switcher) |
+| Griptape Task Memory and Off Prompt | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_off_prompt) |
+| Griptape Chat Memory Agent | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_chat_memory_agent) |
+| Griptape Find and Replace Transform | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_find_replace_transform) |
+| Griptape Filter CSVs | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_csv_filter) |
+| Griptape AWS Bill PDF to CSV | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_aws_bill_pdf_to_csv) |
+| Griptape Slack Handler | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_slack_handler) |
 
 ## Running Samples
 
