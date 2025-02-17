@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import logging
 import os
 from io import BytesIO
 from pathlib import Path
@@ -19,6 +20,8 @@ from griptape.events import EventBus, EventListener, FinishStructureRunEvent
 from griptape.loaders import PdfLoader
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
+
+logger = logging.getLogger(__name__)
 
 
 def is_running_in_managed_environment() -> bool:
@@ -93,19 +96,22 @@ class AWSBillPdfLoader(PdfLoader):
                         elif "OTHER" in response.output.value:
                             self.service = striped_value
                         else:
-                            pass
+                            logger.warning("Unrecognized type: %s", striped_value)
+                            continue
                 elif 16 <= spaces <= 18:  # noqa: PLR2004
                     if "(USD" in lstrip_chunk:
                         usd_split = lstrip_chunk.rsplit("(USD", 1)
                     elif "USD" in lstrip_chunk:
                         usd_split = lstrip_chunk.rsplit("USD", 1)
                     else:
+                        logger.warning("Unrecognized USD format: %s", lstrip_chunk)
                         continue
 
                     cost = usd_split[1]
                     try:
                         float(cost)
                     except ValueError:
+                        logger.warning("Unrecognized cost: %s", cost)
                         continue
 
                     usage_split = usd_split[0].rsplit("    ")
@@ -125,6 +131,7 @@ class AWSBillPdfLoader(PdfLoader):
 
                     artifacts.append(TextArtifact(formatted_value))
                 else:
+                    logger.warning("Unrecognized spaces: %s", spaces)
                     continue
 
         return artifacts
