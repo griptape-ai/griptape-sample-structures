@@ -2,7 +2,7 @@ Systems of agents are an effective way for large language models to autonomously
 
 In this example we implement a multi-agent Workflow. We have a single "Researcher" Agent that conducts research on a topic, and then fans out to multiple "Writer" Agents to write blog posts based on the research.
 
-By splitting up our workloads across multiple structures, we can parallelize the work and leverage the strengths of each Agent. The Researcher can focus on gathering data and insights, while the Writers can focus on crafting engaging narratives. The Worklow structure ties the the runs of the other two Agents together to get the final result.
+By splitting up our workloads across multiple structures, we can parallelize the work and leverage the strengths of each Agent. The Researcher can focus on gathering data and insights, while the Writers can focus on crafting engaging narratives. The Workflow structure ties the the runs of the other two Agents together to get the final result.
 
 ## Requirements
 

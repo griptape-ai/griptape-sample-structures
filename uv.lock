@@ -915,6 +915,7 @@ slack = [
 dev = [
     { name = "pyright" },
     { name = "ruff" },
+    { name = "typos" },
 ]
 
 [package.metadata]
@@ -930,6 +931,7 @@ requires-dist = [
 dev = [
     { name = "pyright", specifier = ">=1.1.394" },
     { name = "ruff", specifier = ">=0.9.6" },
+    { name = "typos", specifier = ">=1.29.7" },
 ]
 
 [[package]]
@@ -3042,6 +3044,23 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/df/db/f35a00659bc03fec321ba8bce9420de607a1d37f8342eee1863174c69557/typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8", size = 85321 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/26/9f/ad63fc0248c5379346306f8668cda6e2e2e9c95e01216d2b8ffd9ff037d0/typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d", size = 37438 },
+]
+
+[[package]]
+name = "typos"
+version = "1.29.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0c/48/94b1afb8b276e912a25762feca8475d1011e29faef15e5be69c3b5db2ffc/typos-1.29.7.tar.gz", hash = "sha256:7729b423e6df0e884fb0a42c80017905d43b4a7c42ea01d3e218b8eb1bb03ebc", size = 1492959 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/08/e7/2073f6dff78a5305e1f5d6eafc9553a113fcdf5dc7a18ec9a41e247389d3/typos-1.29.7-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:b175debd26e5afa8f8930db5be48cb5f6bba78a6ca8e1863f90205734adf2aa2", size = 3102904 },
+    { url = "https://files.pythonhosted.org/packages/e3/c9/7a6d4c4699fa8a3577037c30417e17287eb920218702496e36cf681683e9/typos-1.29.7-py3-none-macosx_11_0_arm64.whl", hash = "sha256:802c62d969b4b1325b0ed374575b2c3aad122c829e45c9a40ede4a72c5c38f4e", size = 2985462 },
+    { url = "https://files.pythonhosted.org/packages/fc/f0/8ffccfcf3a6de7ce8e5bbf79c09b05a42fd606ba6c8dbed1c1fac176c975/typos-1.29.7-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f873268525c2f1385ed18bdfee30b40b58a941eb8a10beab0ab4c03e2d88f847", size = 4288674 },
+    { url = "https://files.pythonhosted.org/packages/14/bf/3b4b3517805be8e5e7863b61fab65d872b02c6a9ae6e7bc463af1a7e7aa5/typos-1.29.7-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:a3927a83639c1de22935c989d2b706356811cbb684cdbc6e349e8790eb0d432f", size = 3420972 },
+    { url = "https://files.pythonhosted.org/packages/20/b7/2a212146b332acf1012f6d973f51385c27213046e4111b6cb35e448ad040/typos-1.29.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:340775d69211976b511e73b5c3213928e9c229da2e305520d49a190930b36b55", size = 4143857 },
+    { url = "https://files.pythonhosted.org/packages/15/aa/e9072f5850872ddcbf5f4bc92de3b412f4373318557cbd4c7ac214bb5363/typos-1.29.7-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:7b30ff4d75f2a056ba63341839dab117299652a3ac802941d7605a7aa8b83e8b", size = 3349522 },
+    { url = "https://files.pythonhosted.org/packages/39/71/fbdd0bd3302788c292c6c773acd84047bc6823503169d49b9c3cec9798a9/typos-1.29.7-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:e663a2ae30a34896c14c8526b44533d3702afeeb19c5e3b34b420e85daeafb0e", size = 4176051 },
+    { url = "https://files.pythonhosted.org/packages/41/89/69d885dd8c3cd3d177bf8e4dcad090fcb8bd4b35a1864fd7284272c6be93/typos-1.29.7-py3-none-win32.whl", hash = "sha256:952d63eed5468d61585e801f7262d617d4bddd72bc8c0b0b24f8631b24235b13", size = 2744603 },
+    { url = "https://files.pythonhosted.org/packages/9f/31/c5afcfbcdcccd378814c16a549eae9f7cb7a928ff82fe5b57da6c5baa02f/typos-1.29.7-py3-none-win_amd64.whl", hash = "sha256:7912d0cea7fb20e44a22e678ed5d715d72a994bd790f2bd4e95ba07a6cedc7c2", size = 2890719 },
 ]
 
 [[package]]

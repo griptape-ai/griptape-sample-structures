@@ -51,4 +51,4 @@ Once created in Griptape Cloud, you can specify this structure on any of your da
 "Wonderbread"
 ```
 
-This goes for any structure you wish to run as a transform. The structure needs to supprt the first positional argument as a list of `Artifacts` and output a `TextArtifact` or `ListArtifact` (standard for text-based Structures).
+This goes for any structure you wish to run as a transform. The structure needs to support the first positional argument as a list of `Artifacts` and output a `TextArtifact` or `ListArtifact` (standard for text-based Structures).
