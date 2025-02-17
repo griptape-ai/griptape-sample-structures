@@ -1,12 +1,15 @@
 import os
 
+from dotenv import load_dotenv
 from griptape.drivers import (
-    GriptapeCloudEventListenerDriver,
     GriptapeCloudStructureRunDriver,
 )
-from griptape.events import EventBus, EventListener
 from griptape.structures import Workflow
 from griptape.tasks import PromptTask, StructureRunTask
+from griptape.utils import GriptapeCloudStructure
+
+load_dotenv()
+
 
 WRITERS = [
     {
@@ -24,19 +27,7 @@ WRITERS = [
 ]
 
 
-def get_listener_api_key() -> str:
-    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
-    if not api_key:
-        pass
-    return api_key
-
-
 if __name__ == "__main__":
-    # Set up the EventBus
-    EventBus.add_event_listener(
-        EventListener(event_listener_driver=GriptapeCloudEventListenerDriver(api_key=get_listener_api_key()))
-    )
-
     # Build the team
     team = Workflow()
     research_task = team.add_task(
@@ -85,4 +76,5 @@ if __name__ == "__main__":
         end_task,
     )
 
-    team.run()
+    with GriptapeCloudStructure():
+        team.run()
