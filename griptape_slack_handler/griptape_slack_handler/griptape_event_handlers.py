@@ -1,23 +1,21 @@
 from __future__ import annotations
 
-from typing import Optional
-
-import logging
 import json
+import logging
 
 from griptape.events import (
+    ActionChunkEvent,
     BaseEvent,
     EventListener,
-    StartStructureRunEvent,
-    StartActionsSubtaskEvent,
     FinishActionsSubtaskEvent,
-    ActionChunkEvent,
+    StartActionsSubtaskEvent,
+    StartStructureRunEvent,
     TextChunkEvent,
 )
 
-from .griptape.tool_event import ToolEvent
 from .griptape.slack_event_listener_driver import SlackEventListenerDriver
-from .slack_util import thought_block, action_block, emoji_block
+from .griptape.tool_event import ToolEvent
+from .slack_util import action_block, emoji_block, thought_block
 
 logger = logging.getLogger()
 
@@ -55,7 +53,7 @@ def event_listeners(*, stream: bool, **kwargs) -> list[EventListener]:
     ]
 
 
-def handler(event: BaseEvent) -> Optional[dict]:
+def handler(event: BaseEvent) -> dict | None:  # noqa: PLR0911
     if isinstance(event, ToolEvent):
         return tool_event_handler(event)
     if isinstance(event, StartStructureRunEvent):
@@ -71,7 +69,7 @@ def handler(event: BaseEvent) -> Optional[dict]:
     return None
 
 
-def tool_event_handler(event: ToolEvent) -> Optional[dict]:
+def tool_event_handler(event: ToolEvent) -> dict | None:
     if not event.tools:
         return None
 
@@ -79,30 +77,27 @@ def tool_event_handler(event: ToolEvent) -> Optional[dict]:
         return {
             "text": f"Tools needed: {', '.join([tool.name for tool in event.tools])}\n\n",
         }
-    else:
-        return {
-            "text": "Tools",
-            "blocks": [action_block(f"I need the {tool.name}") for tool in event.tools],
-        }
+    return {
+        "text": "Tools",
+        "blocks": [action_block(f"I need the {tool.name}") for tool in event.tools],
+    }
 
 
-def start_structure_handler(event: StartStructureRunEvent) -> Optional[dict]:
+def start_structure_handler(_: StartStructureRunEvent) -> dict | None:
     return {
         "text": "Starting...",
         "blocks": [emoji_block(":envelope:", "Reading the data...")],
     }
 
 
-def start_actions_subtask_handler(event: StartActionsSubtaskEvent) -> Optional[dict]:
+def start_actions_subtask_handler(event: StartActionsSubtaskEvent) -> dict | None:
     if event.subtask_actions is None:
         return None
     blocks = []
     if event.subtask_thought is not None:
         blocks.append(thought_block(event.subtask_thought))
     for action in event.subtask_actions:
-        action_input = "\n".join(
-            [f"*{key}*: _{value}_ " for key, value in action["input"]["values"].items()]
-        )
+        action_input = "\n".join([f"*{key}*: _{value}_ " for key, value in action["input"]["values"].items()])
         blocks.append(
             action_block(
                 f"_I will use {action['name']}.{action['path']} with input:_\n\n{action_input}",
@@ -113,14 +108,14 @@ def start_actions_subtask_handler(event: StartActionsSubtaskEvent) -> Optional[d
     return {"blocks": blocks, "text": "Thought..."}
 
 
-def finish_actions_subtask_handler(event: FinishActionsSubtaskEvent) -> Optional[dict]:
+def finish_actions_subtask_handler(_: FinishActionsSubtaskEvent) -> dict | None:
     return {
         "text": "Finishing...",
         "blocks": [emoji_block(":pencil:", "Analyzing the data...")],
     }
 
 
-def text_stream_handler(event: TextChunkEvent) -> Optional[dict]:
+def text_stream_handler(event: TextChunkEvent) -> dict | None:
     if not event.token:
         return None
 
@@ -129,13 +124,15 @@ def text_stream_handler(event: TextChunkEvent) -> Optional[dict]:
     }
 
 
-def action_stream_handler(event: ActionChunkEvent) -> Optional[dict]:
+def action_stream_handler(event: ActionChunkEvent) -> dict | None:
     action = event.partial_input
     if action is not None:
         try:
             loaded = json.loads(action)
-            action = f"I need the {event.name} with action {event.path} with input: {json.dumps(loaded['values'], indent=2)}"
-        except Exception:
+            action = (
+                f"I need the {event.name} with action {event.path} with input: {json.dumps(loaded['values'], indent=2)}"
+            )
+        except json.JSONDecodeError:
             pass
 
         return {

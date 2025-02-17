@@ -1,5 +1,6 @@
 import argparse
 import os
+
 from dotenv import load_dotenv
 from griptape.drivers import GriptapeCloudFileManagerDriver
 
@@ -45,4 +46,4 @@ if __name__ == "__main__":
     )
 
     with open(file=local_file_path, mode="rb") as data:
-        gtc_file_manager_driver.try_save_file(file_name, data)
+        gtc_file_manager_driver.try_save_file(file_name, data.read())

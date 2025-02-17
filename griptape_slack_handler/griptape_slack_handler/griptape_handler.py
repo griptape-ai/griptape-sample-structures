@@ -1,20 +1,20 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
 import logging
 import re
+from typing import TYPE_CHECKING
 
-from griptape.events import EventBus
 from griptape.artifacts import ErrorArtifact, TextArtifact
+from griptape.events import EventBus
+from griptape.memory.structure import ConversationMemory, Run
 from griptape.rules import Ruleset
 from griptape.structures import Agent
-from griptape.memory.structure import ConversationMemory, Run
 
 from griptape_slack_handler.griptape_event_handlers import ToolEvent
 
-from .griptape_tool_box import get_tools
-from .griptape_config import load_griptape_config, set_thread_alias
 from .features import dynamic_rulesets_enabled, dynamic_tools_enabled
+from .griptape_config import load_griptape_config, set_thread_alias
+from .griptape_tool_box import get_tools
 
 if TYPE_CHECKING:
     from griptape.events import EventListener
@@ -26,9 +26,7 @@ logger = logging.getLogger()
 load_griptape_config()
 
 
-def try_add_to_thread(
-    message: str, *, thread_alias: Optional[str] = None, user_id: str
-) -> None:
+def try_add_to_thread(message: str, *, thread_alias: str | None = None, user_id: str) -> None:
     set_thread_alias(thread_alias)
     # find all the user_ids @ mentions in the message
     mentioned_user_ids = re.findall(r"<@([\w]+)>", message)
@@ -56,26 +54,20 @@ def try_add_to_thread(
 
 
 def get_rulesets(**kwargs) -> list[Ruleset]:
-    return (
-        [Ruleset(name=value) for value in kwargs.values()]
-        if dynamic_rulesets_enabled()
-        else []
-    )
+    return [Ruleset(name=value) for value in kwargs.values()] if dynamic_rulesets_enabled() else []
 
 
-def agent(
+def agent(  # noqa: PLR0913
     message: str,
     *,
-    thread_alias: Optional[str] = None,
+    thread_alias: str | None = None,
     user_id: str,
     rulesets: list[Ruleset],
     event_listeners: list[EventListener],
     stream: bool,
 ) -> str:
     set_thread_alias(thread_alias)
-    dynamic_tools = dynamic_tools_enabled() or any(
-        [ruleset.meta.get("dynamic_tools", False) for ruleset in rulesets]
-    )
+    dynamic_tools = dynamic_tools_enabled() or any(ruleset.meta.get("dynamic_tools", False) for ruleset in rulesets)
     tools = get_tools(message, dynamic=dynamic_tools)
     EventBus.add_event_listeners(event_listeners)
     EventBus.publish_event(ToolEvent(tools=tools, stream=stream), flush=True)
@@ -88,5 +80,5 @@ def agent(
     )
     output = agent.run(user_id, message).output
     if isinstance(output, ErrorArtifact):
-        raise ValueError(output.to_text())
+        raise TypeError(output.to_text())
     return output.to_text()

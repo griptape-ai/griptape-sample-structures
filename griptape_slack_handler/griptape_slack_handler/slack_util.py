@@ -1,4 +1,4 @@
-from typing import Generator
+from collections.abc import Generator
 
 SLACK_MAX_BLOCK_CHARS = 3000
 SLACK_MAX_TEXT_CHARACTERS = 40_000
@@ -55,7 +55,7 @@ def action_payload(action: str, **kwargs) -> dict:
 ## Block methods ##
 
 
-def thinking_block(**kwargs) -> dict:
+def thinking_block(**_) -> dict:
     """Gets a block with the thinking gif."""
     return {
         "type": "context",
@@ -69,7 +69,7 @@ def thinking_block(**kwargs) -> dict:
     }
 
 
-def error_block(error: str, **kwargs) -> dict:
+def error_block(error: str, **_) -> dict:
     """Gets a block with the error message."""
     return {
         "type": "context",
@@ -87,7 +87,7 @@ def error_block(error: str, **kwargs) -> dict:
     }
 
 
-def emoji_block(emoji: str, text: str, *, format: bool = True, **kwargs) -> dict:
+def emoji_block(emoji: str, text: str, *, _: bool = True, **kwargs) -> dict:
     """Gets a block with the emoji and text. Truncates the text to the max block text length."""
     return emoji_blocks(emoji, text, **kwargs)[0]
 
@@ -107,11 +107,11 @@ def markdown_block(text: str, **kwargs) -> dict:
     return markdown_blocks(text, **kwargs)[0]
 
 
-def emoji_blocks(emoji: str, text: str, *, format: bool = True, **kwargs) -> list[dict]:
+def emoji_blocks(emoji: str, text: str, *, should_format: bool = True, **kwargs) -> list[dict]:
     """Gets a block with the emoji and text."""
     return (
         markdown_blocks(f"{emoji} _{text}_", **kwargs)
-        if format
+        if should_format
         else markdown_blocks(f"{emoji} {text}", **kwargs)
     )
 
@@ -126,7 +126,7 @@ def thought_blocks(thought: str, **kwargs) -> list[dict]:
     return emoji_blocks(":thought_balloon:", thought, **kwargs)
 
 
-def markdown_blocks(text: str, **kwargs) -> list[dict]:
+def markdown_blocks(text: str, **_) -> list[dict]:
     """Gets a list of markdown blocks with the max block text length."""
     return [
         {
@@ -149,11 +149,9 @@ def markdown_blocks_list(text: str) -> list[list[dict]]:
 ## Chunking methods ##
 
 
-def pretty_chunking(
-    text: str, min_chunk_size: int, max_chunk_size: int
-) -> Generator[str, None, None]:
-    """
-    Split the text into chunks based on the chunk sizes.
+def pretty_chunking(text: str, min_chunk_size: int, max_chunk_size: int) -> Generator[str, None, None]:
+    """Split the text into chunks based on the chunk sizes.
+
     Try to split on periods, newlines, or spaces if possible.
     """
     while True:
@@ -180,16 +178,10 @@ def pretty_chunking(
 
 
 def pretty_chunking_text(text: str) -> Generator[str, None, None]:
-    """
-    Split the text into chunks that are less than the slack max character limit for text.
-    """
-    return pretty_chunking(
-        text, SLACK_MAX_TEXT_CHARACTERS - 1000, SLACK_MAX_TEXT_CHARACTERS
-    )
+    """Split the text into chunks that are less than the slack max character limit for text."""
+    return pretty_chunking(text, SLACK_MAX_TEXT_CHARACTERS - 1000, SLACK_MAX_TEXT_CHARACTERS)
 
 
 def pretty_chunking_block(text: str) -> Generator[str, None, None]:
-    """
-    Split the text into chunks that are less than the slack max character limit for blocks.
-    """
+    """Split the text into chunks that are less than the slack max character limit for blocks."""
     return pretty_chunking(text, SLACK_MAX_BLOCK_CHARS - 200, SLACK_MAX_BLOCK_CHARS)

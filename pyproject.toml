@@ -26,12 +26,22 @@ dev = [
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
+    "D101",
+    "D102",
     "D103",
+    "D104",
     "D203",
     "D212",
     "COM812",
     "D100",
     "PTH123",
     "PTH103",
-    "PTH120"
+    "PTH120",
+    "ANN003"
 ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff]
+line-length = 120
