@@ -1,7 +1,8 @@
-import sys
 import json
-import rich.logging
 import logging
+import sys
+
+import rich.logging
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,6 +20,7 @@ logging.basicConfig(
     force=True,
 )
 
+BAD_REQUEST_STATUS_CODE = 400
 
 if __name__ == "__main__":
     from griptape_slack_handler import handle_slack_event
@@ -26,5 +28,5 @@ if __name__ == "__main__":
     body, query, headers = sys.argv[1:4]
     res = handle_slack_event(body, json.loads(headers))
 
-    if res["status"] >= 400:
+    if res["status"] >= BAD_REQUEST_STATUS_CODE:
         sys.exit(1)

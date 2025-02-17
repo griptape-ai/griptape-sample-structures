@@ -1,47 +1,40 @@
 import os
 
 from griptape.drivers import (
-    GriptapeCloudStructureRunDriver,
     GriptapeCloudEventListenerDriver,
+    GriptapeCloudStructureRunDriver,
 )
+from griptape.events import EventBus, EventListener
 from griptape.structures import Workflow
 from griptape.tasks import PromptTask, StructureRunTask
-from griptape.events import EventBus, EventListener
 
 WRITERS = [
     {
         "role": "Travel Adventure Blogger",
         "goal": "Inspire wanderlust with stories of hidden gems and exotic locales",
-        "backstory": "With a passport full of stamps, you bring distant cultures and breathtaking scenes to life through vivid storytelling and personal anecdotes.",
+        "backstory": "With a passport full of stamps, you bring distant cultures and breathtaking scenes to life "
+        "through vivid storytelling and personal anecdotes.",
     },
     {
         "role": "Lifestyle Freelance Writer",
         "goal": "Share practical advice on living a balanced and stylish life",
-        "backstory": "From the latest trends in home decor to tips for wellness, your articles help readers create a life that feels both aspirational and attainable.",
+        "backstory": "From the latest trends in home decor to tips for wellness, your articles help readers create a "
+        "life that feels both aspirational and attainable.",
     },
 ]
+
 
 def get_listener_api_key() -> str:
     api_key = os.environ.get("GT_CLOUD_API_KEY", "")
     if not api_key:
-        print(
-            """
-              ****WARNING****: No value was found for the 'GT_CLOUD_API_KEY' environment variable.
-              This environment variable is required when running in Griptape Cloud for authorization.
-              You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/keys .
-              Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
-              """
-        )
+        pass
     return api_key
+
 
 if __name__ == "__main__":
     # Set up the EventBus
     EventBus.add_event_listener(
-        EventListener(
-            event_listener_driver=GriptapeCloudEventListenerDriver(
-                api_key=get_listener_api_key()
-            )
-        )
+        EventListener(event_listener_driver=GriptapeCloudEventListenerDriver(api_key=get_listener_api_key()))
     )
 
     # Build the team
@@ -56,7 +49,7 @@ if __name__ == "__main__":
             structure_run_driver=GriptapeCloudStructureRunDriver(
                 api_key=os.environ["GT_CLOUD_API_KEY"],
                 structure_id=os.environ["GT_RESEARCH_STRUCTURE_ID"],
-                structure_run_max_wait_time_attempts=30 # takes 50 seconds to run
+                structure_run_max_wait_time_attempts=30,  # takes 50 seconds to run
             ),
         ),
     )

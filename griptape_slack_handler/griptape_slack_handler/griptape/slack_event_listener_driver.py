@@ -1,9 +1,10 @@
 from __future__ import annotations
-import logging
-from attrs import define, field
-from typing import TYPE_CHECKING
-import threading
 
+import logging
+import threading
+from typing import TYPE_CHECKING
+
+from attrs import define, field
 from griptape.drivers import BaseEventListenerDriver
 
 if TYPE_CHECKING:
@@ -22,6 +23,7 @@ class SlackEventListenerDriver(BaseEventListenerDriver):
         ts: The timestamp of the message to update.
         thread_ts: The timestamp of the thread.
         channel: The channel ID.
+
     """
 
     web_client: WebClient = field()
@@ -38,8 +40,7 @@ class SlackEventListenerDriver(BaseEventListenerDriver):
             new_text = "".join([event.get("text", "") for event in event_payload_batch])
             try:
                 res = self._slack_responses[self.ts] = self.web_client.chat_update(
-                    text=self._slack_responses.get(self.ts, {}).get("text", "")
-                    + new_text,
+                    text=self._slack_responses.get(self.ts, {}).get("text", "") + new_text,
                     ts=self.ts,
                     thread_ts=self.thread_ts,
                     channel=self.channel,
@@ -60,9 +61,7 @@ class SlackEventListenerDriver(BaseEventListenerDriver):
             payload = {**event_payload}
             try:
                 if "blocks" in event_payload:
-                    payload["blocks"] = (
-                        self._get_last_blocks() + event_payload["blocks"]
-                    )
+                    payload["blocks"] = self._get_last_blocks() + event_payload["blocks"]
                 res = self.web_client.chat_update(
                     **payload,
                     ts=self.ts,
@@ -81,7 +80,5 @@ class SlackEventListenerDriver(BaseEventListenerDriver):
                 self._slack_responses[res["ts"]] = res.data
                 self.ts = res["ts"]
 
-    def _get_last_blocks(self):
-        return (
-            self._slack_responses.get(self.ts, {}).get("message", {}).get("blocks", [])
-        )
+    def _get_last_blocks(self) -> list[dict]:
+        return self._slack_responses.get(self.ts, {}).get("message", {}).get("blocks", [])

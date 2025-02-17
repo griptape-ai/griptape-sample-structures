@@ -1,26 +1,24 @@
+import argparse
 import os
-from typing import Optional
+
 from dotenv import load_dotenv
-from griptape.structures import Agent
 from griptape.configs import Defaults
 from griptape.drivers import (
     GriptapeCloudConversationMemoryDriver,
-)
-from griptape.drivers import (
     GriptapeCloudEventListenerDriver,
     GriptapeCloudRulesetDriver,
-    GriptapeCloudVectorStoreDriver
+    GriptapeCloudVectorStoreDriver,
 )
-from griptape.events import EventListener, EventBus
-from griptape.rules.ruleset import Ruleset
-from griptape.tools import BaseTool, RagTool
 from griptape.engines.rag import RagEngine
 from griptape.engines.rag.modules import (
     PromptResponseRagModule,
     VectorStoreRetrievalRagModule,
 )
 from griptape.engines.rag.stages import ResponseRagStage, RetrievalRagStage
-import argparse
+from griptape.events import EventBus, EventListener
+from griptape.rules.ruleset import Ruleset
+from griptape.structures import Agent
+from griptape.tools import BaseTool, RagTool
 
 
 def is_running_in_managed_environment() -> bool:
@@ -34,29 +32,21 @@ def get_base_url() -> str:
 def get_listener_api_key() -> str:
     api_key = os.environ.get("GT_CLOUD_API_KEY", "")
     if is_running_in_managed_environment() and not api_key:
-        print(
-            """
-              ****WARNING****: No value was found for the 'GT_CLOUD_API_KEY' environment variable.
-              This environment variable is required when running in Griptape Cloud for authorization.
-              You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/keys .
-              Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
-              """
-        )
+        pass
     return api_key
 
 
-def get_headers():
+def get_headers() -> dict:
     return {
         "Authorization": f"Bearer {get_listener_api_key()}",
         "Content-Type": "application/json",
     }
 
 
-def get_knowledge_base_tools(knowledge_base_id: Optional[str]) -> list[BaseTool]:
+def get_knowledge_base_tools(knowledge_base_id: str | None) -> list[BaseTool]:
     if knowledge_base_id is None:
         return []
-    else:
-        engine = RagEngine(
+    engine = RagEngine(
         retrieval_stage=RetrievalRagStage(
             retrieval_modules=[
                 VectorStoreRetrievalRagModule(
@@ -71,27 +61,26 @@ def get_knowledge_base_tools(knowledge_base_id: Optional[str]) -> list[BaseTool]
             response_modules=[PromptResponseRagModule()],
         ),
     )
-        return [
-            RagTool(
+    return [
+        RagTool(
             description="Contains information about the company and its operations",
             rag_engine=engine,
         ),
-        ]
+    ]
 
 
-def get_rulesets(ruleset_alias: Optional[str]) -> list[Ruleset]:
+def get_rulesets(ruleset_alias: str | None) -> list[Ruleset]:
     if ruleset_alias is None:
         return []
-    else:
-        return [
-            Ruleset(
-                name=ruleset_alias,
-                ruleset_driver=GriptapeCloudRulesetDriver(
-                    api_key=get_listener_api_key(),
-                    base_url=get_base_url(),
-                ),
-            )
-        ]
+    return [
+        Ruleset(
+            name=ruleset_alias,
+            ruleset_driver=GriptapeCloudRulesetDriver(
+                api_key=get_listener_api_key(),
+                base_url=get_base_url(),
+            ),
+        )
+    ]
 
 
 if __name__ == "__main__":
@@ -149,11 +138,9 @@ if __name__ == "__main__":
     else:
         load_dotenv()
 
-    Defaults.drivers_config.conversation_memory_driver = (
-        GriptapeCloudConversationMemoryDriver(
-            api_key=get_listener_api_key(),
-            thread_id=thread_id,
-        )
+    Defaults.drivers_config.conversation_memory_driver = GriptapeCloudConversationMemoryDriver(
+        api_key=get_listener_api_key(),
+        thread_id=thread_id,
     )
 
     agent = Agent(

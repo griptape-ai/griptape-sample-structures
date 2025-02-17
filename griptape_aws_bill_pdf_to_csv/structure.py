@@ -3,19 +3,25 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import logging
 import os
-import pypdf
+from io import BytesIO
+from pathlib import Path
 
+import pypdf
 from attrs import define
 from dotenv import load_dotenv
-from io import BytesIO
-
-from griptape.artifacts import TextArtifact, ListArtifact
-from griptape.drivers import GriptapeCloudEventListenerDriver, GriptapeCloudFileManagerDriver
-from griptape.events import EventListener, EventBus, FinishStructureRunEvent
-from griptape.loaders import BaseFileLoader
+from griptape.artifacts import ListArtifact, TextArtifact
+from griptape.drivers import (
+    GriptapeCloudEventListenerDriver,
+    GriptapeCloudFileManagerDriver,
+)
+from griptape.events import EventBus, EventListener, FinishStructureRunEvent
+from griptape.loaders import PdfLoader
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
+
+logger = logging.getLogger(__name__)
 
 
 def is_running_in_managed_environment() -> bool:
@@ -29,15 +35,8 @@ def get_gtc_base_url() -> str:
 def get_gtc_api_key() -> str:
     api_key = os.environ.get("GT_CLOUD_API_KEY", "")
     if is_running_in_managed_environment() and not api_key:
-        print(
-            """
-            ****WARNING****: No value was found for the 'GT_CLOUD_API_KEY' environment variable.
-            This environment variable is required when running in Griptape Cloud for authorization.
-            You can generate a Griptape Cloud API Key by visiting https://cloud.griptape.ai/keys .
-            Specify it as an environment variable when creating a Managed Structure in Griptape Cloud.
-            """
-        )
-        raise ValueError("No value was found for the 'GT_CLOUD_API_KEY' environment variable.")
+        msg = "No value was found for the 'GT_CLOUD_API_KEY' environment variable."
+        raise ValueError(msg)
     return api_key
 
 
@@ -52,13 +51,11 @@ csv_rules = Ruleset(
     ],
 )
 
-agent = Agent(
-    conversation_memory=None,
-    rulesets=[csv_rules]
-)
+agent = Agent(conversation_memory=None, rulesets=[csv_rules])
+
 
 @define
-class AWSBillPdfLoader(BaseFileLoader[TextArtifact]):
+class AWSBillPdfLoader(PdfLoader):
     region = "UNKNOWN"
     service = "UNKNOWN"
     type = "UNKNOWN"
@@ -73,46 +70,51 @@ class AWSBillPdfLoader(BaseFileLoader[TextArtifact]):
             extracted_text = page.extract_text(extraction_mode="layout")
             artifacts.extend(self._text_to_artifacts(extracted_text))
         return ListArtifact(artifacts)
-    
-    def _text_to_artifacts(self, text: str) -> list[TextArtifact]:
+
+    def _text_to_artifacts(self, text: str) -> list[TextArtifact]:  # noqa: C901, PLR0912
         artifacts = []
 
         chunks = text.splitlines()
 
         for chunk in chunks:
             lstrip_chunk = chunk.lstrip()
-            spaces = len(chunk)-len(lstrip_chunk)
-            if 'USD' in lstrip_chunk:
-                if 11 <= spaces <= 14:
-                    striped_value = lstrip_chunk.split('USD')[0].strip()
+            spaces = len(chunk) - len(lstrip_chunk)
+            if "USD" in lstrip_chunk:
+                if 11 <= spaces <= 14:  # noqa: PLR2004
+                    striped_value = lstrip_chunk.split("USD")[0].strip()
                     # Special case for CodeBuild USW2-Build-Min:ARM:g1.small like types
-                    if striped_value.startswith("AWS") or striped_value.startswith("Amazon") or striped_value.startswith("CodeBuild "):
+                    if striped_value.startswith(("AWS", "Amazon", "CodeBuild ")):
                         self.type = striped_value
                     else:
-                        response = agent.run(f'Only return a single word, GEOGRAPHIC or OTHER. "Any" must be classified as GEOGRAPHIC. Phrases that are related to geography or locations on Earth must be classified at GEOGRAPHIC. Classify the following phrase after removing superfluous whitespace from it: "{striped_value}"')
+                        response = agent.run(
+                            'Only return a single word, GEOGRAPHIC or OTHER. "Any" must be classified as GEOGRAPHIC. '
+                            "Phrases that are related to geography or locations on Earth must be classified at GEOGRAPHIC."  # noqa: E501
+                            'Classify the following phrase after removing superfluous whitespace from it: "{striped_value}"'  # noqa: E501
+                        )
                         if "GEOGRAPHIC" in response.output.value:
                             self.region = striped_value
                         elif "OTHER" in response.output.value:
                             self.service = striped_value
                         else:
-                            print(f"Invalid classification: {response.output.value} for: {striped_value}")
-                elif 16 <= spaces <= 18:
-                    if '(USD' in lstrip_chunk:
-                        usd_split = lstrip_chunk.rsplit('(USD', 1)
-                    elif 'USD' in lstrip_chunk:
-                        usd_split = lstrip_chunk.rsplit('USD', 1)
+                            logger.warning("Unrecognized type: %s", striped_value)
+                            continue
+                elif 16 <= spaces <= 18:  # noqa: PLR2004
+                    if "(USD" in lstrip_chunk:
+                        usd_split = lstrip_chunk.rsplit("(USD", 1)
+                    elif "USD" in lstrip_chunk:
+                        usd_split = lstrip_chunk.rsplit("USD", 1)
                     else:
-                        print(f"Invalid cost: {cost}")
+                        logger.warning("Unrecognized USD format: %s", lstrip_chunk)
                         continue
 
                     cost = usd_split[1]
                     try:
                         float(cost)
                     except ValueError:
-                        print(f"Nonnumerical cost: {cost}")
+                        logger.warning("Unrecognized cost: %s", cost)
                         continue
 
-                    usage_split = usd_split[0].rsplit('    ')
+                    usage_split = usd_split[0].rsplit("    ")
                     usage = list(filter(None, usage_split))[-1].strip()
                     quantity_and_unit = usage.split(" ", 1)
                     quantity = quantity_and_unit[0]
@@ -120,14 +122,16 @@ class AWSBillPdfLoader(BaseFileLoader[TextArtifact]):
                         unit = quantity_and_unit[1]
                     except IndexError:
                         unit = ""
-                    
-                    description = list(filter(None, usage_split))[0].strip()
-                    result = f'["{self.region}", "{self.service}", "{self.type}", "{quantity}", "{unit}", "{cost}", "{description}"]'
-                    formatted_value = agent.run(f'Reformat, remove whitespace that is inside of words, and return the following: {result}').output.value
+
+                    description = next(filter(None, usage_split)).strip()
+                    result = f'["{self.region}", "{self.service}", "{self.type}", "{quantity}", "{unit}", "{cost}", "{description}"]'  # noqa: E501
+                    formatted_value = agent.run(
+                        f"Reformat, remove whitespace that is inside of words, and return the following: {result}"
+                    ).output.value
 
                     artifacts.append(TextArtifact(formatted_value))
                 else:
-                    print(f"Unsupported {spaces}: {repr(lstrip_chunk)}")
+                    logger.warning("Unrecognized spaces: %s", spaces)
                     continue
 
         return artifacts
@@ -185,35 +189,37 @@ if __name__ == "__main__":
         api_key=get_gtc_api_key(),
         base_url=get_gtc_base_url(),
         bucket_id=bucket_id,
-        workdir=workdir
+        workdir=workdir,
     )
 
     loader = AWSBillPdfLoader(file_manager_driver=gtc_file_manager_driver)
     list_artifact = loader.load(pdf_file_name)
-    print(list_artifact)
 
-    with open(csv_file_name, 'w', newline='') as destination_file:
-        fieldnames = ['region', 'service', 'type', 'quantity', 'unit', 'cost', 'description']
+    with open(csv_file_name, "w", newline="") as destination_file:
+        fieldnames = [
+            "region",
+            "service",
+            "type",
+            "quantity",
+            "unit",
+            "cost",
+            "description",
+        ]
         writer = csv.DictWriter(destination_file, fieldnames=fieldnames)
 
         writer.writeheader()
         for artifact in list_artifact.value:
-            writer.writerow(dict(zip(fieldnames, json.loads(artifact.value))))
+            writer.writerow(dict(zip(fieldnames, json.loads(artifact.value), strict=False)))
 
-    gtc_file_manager_driver.try_save_file(path=csv_file_name, value=open(csv_file_name, "rb").read())
+    gtc_file_manager_driver.try_save_file(path=csv_file_name, value=Path(csv_file_name).read_bytes())
 
-    if is_running_in_managed_environment():
-        if os.path.exists(csv_file_name):
-            os.remove(csv_file_name)
+    if is_running_in_managed_environment() and Path(csv_file_name).exists():
+        Path(csv_file_name).unlink()
 
     # This code is if you run this Structure as a GTC DC
     if event_driver is not None:
-        print("Publishing final event...")
         task_input = TextArtifact(value=None)
-        done_event = FinishStructureRunEvent(
-            output_task_input=task_input, output_task_output=list_artifact
-        )
+        done_event = FinishStructureRunEvent(output_task_input=task_input, output_task_output=list_artifact)
 
         EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
         EventBus.publish_event(done_event, flush=True)
-        print("Published final event")
