@@ -13,5 +13,5 @@ if TYPE_CHECKING:
 class ReadOnlyConversationMemory(ConversationMemory):
     """Read-only conversation memory for providing context to the LLM without adding its own."""
 
-    def add_run(self, _: Run) -> BaseConversationMemory:
+    def add_run(self, run: Run) -> BaseConversationMemory:  # noqa: ARG002
         return self
