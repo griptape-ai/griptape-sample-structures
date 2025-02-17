@@ -27,3 +27,54 @@ Once logged in, you can connect your GitHub account and [create a structure from
 ## Running Samples
 
 Each Sample's README has more details on how to call and run the Sample. If you wish to run the Sample via the Griptape Framework, take a look at [Structure Run Drivers](https://docs.griptape.ai/stable/griptape-framework/drivers/structure-run-drivers/).
+
+## Local Dev
+
+### uv
+
+This project uses [uv](https://docs.astral.sh/uv/) to manage project dependencies.
+If you're familiar with using [poetry](https://python-poetry.org/), `uv` is a more modern alternative.
+After you've [installed uv](https://docs.astral.sh/uv/getting-started/installation/), you can install the project dependencies by running:
+
+```bash
+uv sync --all-extras --all-groups
+```
+
+While each sample defines its own dependencies in a directory-local `requirements.txt`, this command will install some common dependencies that are used across all samples for an easier local development experience.
+
+### ruff
+
+This project uses [ruff](https://docs.astral.sh/ruff/) for linting and formatting.
+
+You can run the `ruff` formatter on the project by running:
+
+```bash
+uv run ruff format
+```
+
+You can run the `ruff` linter on the project by running:
+
+```bash
+uv run ruff check --fix
+```
+
+### pyright
+
+This project uses [pyright](https://github.com/microsoft/pyright) for static type checking.
+
+You can run `pyright` on the project by running:
+
+```bash
+uv run pyright
+```
+
+
+### typos
+
+This project uses [typos](https://github.com/crate-ci/typos) for spell checking.
+
+You can run `typos` on the project by running:
+
+```bash
+uv run typos
+```
