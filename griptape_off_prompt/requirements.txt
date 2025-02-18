@@ -1,3 +1,3 @@
 python-dotenv==1.0.1
 argparse==1.4.0
-griptape[drivers-prompt-anthropic, drivers-web-scraper-trafilatura]==1.1.0
+griptape[drivers-prompt-anthropic, drivers-web-scraper-trafilatura]==1.3.0

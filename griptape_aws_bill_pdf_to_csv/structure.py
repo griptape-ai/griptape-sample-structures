@@ -4,7 +4,6 @@ import argparse
 import csv
 import json
 import logging
-import os
 from io import BytesIO
 from pathlib import Path
 
@@ -13,31 +12,16 @@ from attrs import define
 from dotenv import load_dotenv
 from griptape.artifacts import ListArtifact, TextArtifact
 from griptape.drivers import (
-    GriptapeCloudEventListenerDriver,
     GriptapeCloudFileManagerDriver,
 )
-from griptape.events import EventBus, EventListener, FinishStructureRunEvent
 from griptape.loaders import PdfLoader
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
+from griptape.utils import GriptapeCloudStructure
 
 logger = logging.getLogger(__name__)
 
-
-def is_running_in_managed_environment() -> bool:
-    return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
-
-
-def get_gtc_base_url() -> str:
-    return os.environ.get("GT_CLOUD_BASE_URL", "https://cloud.griptape.ai")
-
-
-def get_gtc_api_key() -> str:
-    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
-    if is_running_in_managed_environment() and not api_key:
-        msg = "No value was found for the 'GT_CLOUD_API_KEY' environment variable."
-        raise ValueError(msg)
-    return api_key
+load_dotenv()
 
 
 csv_rules = Ruleset(
@@ -170,24 +154,7 @@ if __name__ == "__main__":
     pdf_file_name = args.pdf_file_name
     csv_file_name = args.csv_file_name
 
-    if is_running_in_managed_environment():
-        event_driver = GriptapeCloudEventListenerDriver(api_key=get_gtc_api_key(), base_url=get_gtc_base_url())
-        EventBus.add_event_listeners(
-            [
-                EventListener(
-                    # By default, GriptapeCloudEventListenerDriver uses the api key provided
-                    # in the GT_CLOUD_API_KEY environment variable.
-                    event_listener_driver=event_driver,
-                ),
-            ]
-        )
-    else:
-        load_dotenv()
-        event_driver = None
-
     gtc_file_manager_driver = GriptapeCloudFileManagerDriver(
-        api_key=get_gtc_api_key(),
-        base_url=get_gtc_base_url(),
         bucket_id=bucket_id,
         workdir=workdir,
     )
@@ -213,13 +180,7 @@ if __name__ == "__main__":
 
     gtc_file_manager_driver.try_save_file(path=csv_file_name, value=Path(csv_file_name).read_bytes())
 
-    if is_running_in_managed_environment() and Path(csv_file_name).exists():
-        Path(csv_file_name).unlink()
-
-    # This code is if you run this Structure as a GTC DC
-    if event_driver is not None:
-        task_input = TextArtifact(value=None)
-        done_event = FinishStructureRunEvent(output_task_input=task_input, output_task_output=list_artifact)
-
-        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
-        EventBus.publish_event(done_event, flush=True)
+    with GriptapeCloudStructure() as structure:
+        if structure.in_managed_environment and Path(csv_file_name).exists():
+            Path(csv_file_name).unlink()
+        structure.output = list_artifact
