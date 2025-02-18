@@ -1,0 +1,11 @@
+version: 1.0 # Defines the version of the structure_config to use
+runtime: python3 # Defines the runtime environment for the Structure
+runtime_version: 3.11 # Defines the specific version of the runtime environment for the Structure
+build: # Defines the build-time configuration for the Structure
+  requirements_file: requirements.txt # Defines the path to the requirements.txt file for the Structure, relative to the structure_config.yaml. Or absolute from the repository root if a forward slash is used: `/requirements.txt`.
+  cache_build_dependencies: # Defines the configuration for caching build dependencies in order to speed up Deployments
+    enabled: false # Defines whether the build dependency caching is on or off
+    watched_files: # Defines the particular files that will trigger cache invalidation, resulting in a full rebuild of the Structure and dependencies
+      - requirements.txt
+run: # Defines the run-time configuration for the Structure
+  main_file: structure.py # Specifies the path to the entry point file of the Managed Structure. This path is relative to the structure_config.yaml. Or absolute from the repository root if a forward slash is used: `/structure.py`.
