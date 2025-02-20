@@ -148,7 +148,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-d",
         "--workdir",
-        default=None,
+        default="",
         help="The working directory location of PDF and CSV in the Griptape Cloud Bucket.",
     )
     parser.add_argument(
@@ -189,7 +189,7 @@ if __name__ == "__main__":
         api_key=get_gtc_api_key(),
         base_url=get_gtc_base_url(),
         bucket_id=bucket_id,
-        workdir=workdir,
+        workdir=workdir or "",
     )
 
     loader = AWSBillPdfLoader(file_manager_driver=gtc_file_manager_driver)
