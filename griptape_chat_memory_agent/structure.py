@@ -1,11 +1,9 @@
 import argparse
-import os
 
 from dotenv import load_dotenv
 from griptape.configs import Defaults
 from griptape.drivers import (
     GriptapeCloudConversationMemoryDriver,
-    GriptapeCloudEventListenerDriver,
     GriptapeCloudRulesetDriver,
     GriptapeCloudVectorStoreDriver,
 )
@@ -15,32 +13,12 @@ from griptape.engines.rag.modules import (
     VectorStoreRetrievalRagModule,
 )
 from griptape.engines.rag.stages import ResponseRagStage, RetrievalRagStage
-from griptape.events import EventBus, EventListener
 from griptape.rules.ruleset import Ruleset
 from griptape.structures import Agent
 from griptape.tools import BaseTool, RagTool
+from griptape.utils import GriptapeCloudStructure
 
-
-def is_running_in_managed_environment() -> bool:
-    return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
-
-
-def get_base_url() -> str:
-    return os.environ.get("GT_CLOUD_BASE_URL", "https://cloud.griptape.ai")
-
-
-def get_listener_api_key() -> str:
-    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
-    if is_running_in_managed_environment() and not api_key:
-        pass
-    return api_key
-
-
-def get_headers() -> dict:
-    return {
-        "Authorization": f"Bearer {get_listener_api_key()}",
-        "Content-Type": "application/json",
-    }
+load_dotenv()
 
 
 def get_knowledge_base_tools(knowledge_base_id: str | None) -> list[BaseTool]:
@@ -51,7 +29,6 @@ def get_knowledge_base_tools(knowledge_base_id: str | None) -> list[BaseTool]:
             retrieval_modules=[
                 VectorStoreRetrievalRagModule(
                     vector_store_driver=GriptapeCloudVectorStoreDriver(
-                        api_key=get_listener_api_key(),
                         knowledge_base_id=knowledge_base_id,
                     )
                 )
@@ -72,15 +49,7 @@ def get_knowledge_base_tools(knowledge_base_id: str | None) -> list[BaseTool]:
 def get_rulesets(ruleset_alias: str | None) -> list[Ruleset]:
     if ruleset_alias is None:
         return []
-    return [
-        Ruleset(
-            name=ruleset_alias,
-            ruleset_driver=GriptapeCloudRulesetDriver(
-                api_key=get_listener_api_key(),
-                base_url=get_base_url(),
-            ),
-        )
-    ]
+    return [Ruleset(name=ruleset_alias, ruleset_driver=GriptapeCloudRulesetDriver())]
 
 
 if __name__ == "__main__":
@@ -124,22 +93,7 @@ if __name__ == "__main__":
     ruleset_alias = args.ruleset_alias
     stream = args.stream
 
-    if is_running_in_managed_environment():
-        event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
-        EventBus.add_event_listeners(
-            [
-                EventListener(
-                    # By default, GriptapeCloudEventListenerDriver uses the api key provided
-                    # in the GT_CLOUD_API_KEY environment variable.
-                    event_listener_driver=event_driver,
-                ),
-            ]
-        )
-    else:
-        load_dotenv()
-
     Defaults.drivers_config.conversation_memory_driver = GriptapeCloudConversationMemoryDriver(
-        api_key=get_listener_api_key(),
         thread_id=thread_id,
     )
 
@@ -149,4 +103,5 @@ if __name__ == "__main__":
         stream=stream,
     )
 
-    result = agent.run(prompt)
+    with GriptapeCloudStructure():
+        agent.run(prompt)

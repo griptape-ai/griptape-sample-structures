@@ -6,24 +6,14 @@ from griptape.configs import Defaults
 from griptape.configs.drivers import DriversConfig
 from griptape.drivers import (
     AnthropicPromptDriver,
-    GriptapeCloudEventListenerDriver,
     LocalVectorStoreDriver,
     OpenAiEmbeddingDriver,
 )
-from griptape.events import EventBus, EventListener
 from griptape.structures import Agent
 from griptape.tools import PromptSummaryTool, WebScraperTool
+from griptape.utils import GriptapeCloudStructure
 
-
-def is_running_in_managed_environment() -> bool:
-    return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
-
-
-def get_listener_api_key() -> str:
-    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
-    if is_running_in_managed_environment() and not api_key:
-        pass
-    return api_key
+load_dotenv()
 
 
 def on_prompt_agent() -> Agent:
@@ -59,12 +49,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     website = args.website
 
-    if is_running_in_managed_environment():
-        event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
-        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
-    else:
-        load_dotenv()
-
     Defaults.drivers_config = DriversConfig(
         prompt_driver=AnthropicPromptDriver(
             model="claude-3-sonnet-20240229",
@@ -75,4 +59,5 @@ if __name__ == "__main__":
 
     agent = off_prompt_agent() if args.off_prompt else on_prompt_agent()
 
-    result = agent.run(f"Summarize the following website into a brief text message you would send a friend: {website}")
+    with GriptapeCloudStructure():
+        agent.run(f"Summarize the following website into a brief text message you would send a friend: {website}")
