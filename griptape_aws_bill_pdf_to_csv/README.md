@@ -40,6 +40,7 @@ python download.py -b <bucket_id> -p <local_file_path> -d <workdir> -n <asset_fi
 ### Griptape Cloud
 
 You can create a run via the API or the UI. When creating runs in the UI, you will need to specify parameters on their own lines.
+`workdir` should be a relative path to the folder within the bucket containing the PDF; if `workdir` is not specified, the default will be the root of the Bucket.
 
 ```
 -b
