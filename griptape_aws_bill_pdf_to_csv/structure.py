@@ -148,7 +148,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-d",
         "--workdir",
-        default=None,
+        default="",
         help="The working directory location of PDF and CSV in the Griptape Cloud Bucket.",
     )
     parser.add_argument(
