@@ -189,7 +189,7 @@ if __name__ == "__main__":
         api_key=get_gtc_api_key(),
         base_url=get_gtc_base_url(),
         bucket_id=bucket_id,
-        workdir=workdir or "",
+        workdir=workdir,
     )
 
     loader = AWSBillPdfLoader(file_manager_driver=gtc_file_manager_driver)
