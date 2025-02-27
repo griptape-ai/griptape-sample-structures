@@ -6,29 +6,19 @@ import json
 import os
 
 import boto3
-from griptape.artifacts import TextArtifact
+from dotenv import load_dotenv
 from griptape.configs import defaults_config
 from griptape.configs.drivers import DriversConfig
 from griptape.drivers import (
     AnthropicPromptDriver,
-    GriptapeCloudEventListenerDriver,
 )
-from griptape.events import EventBus, EventListener, FinishStructureRunEvent
 from griptape.loaders import CsvLoader
 from griptape.rules import Rule
 from griptape.structures import Agent
 from griptape.tasks import PromptTask
+from griptape.utils import GriptapeCloudStructure
 
-
-def is_running_in_managed_environment() -> bool:
-    return "GT_CLOUD_STRUCTURE_RUN_ID" in os.environ
-
-
-def get_listener_api_key() -> str:
-    api_key = os.environ.get("GT_CLOUD_API_KEY", "")
-    if is_running_in_managed_environment() and not api_key:
-        pass
-    return api_key
+load_dotenv()
 
 
 def filter_spreadsheet(filter_by: str, input_file: str) -> list:
@@ -79,13 +69,6 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    if is_running_in_managed_environment():
-        event_driver = GriptapeCloudEventListenerDriver(api_key=get_listener_api_key())
-    else:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        event_driver = None
 
     defaults_config.Defaults.drivers_config = DriversConfig(
         prompt_driver=AnthropicPromptDriver(
@@ -126,12 +109,7 @@ if __name__ == "__main__":
     with contextlib.suppress(Exception):
         s3_client.upload_file(output_file_path_local, bucket, output_file_path_local)
 
-    # This code is if you run this Structure as a GTC DC
-    if event_driver is not None:
-        artifacts = CsvLoader().load(output_file_path_local)
+    artifacts = CsvLoader().load(output_file_path_local)
 
-        task_input = TextArtifact(value=None)
-        done_event = FinishStructureRunEvent(output_task_input=task_input, output_task_output=artifacts)
-
-        EventBus.add_event_listener(EventListener(event_listener_driver=event_driver))
-        EventBus.publish_event(done_event, flush=True)
+    with GriptapeCloudStructure() as structure:
+        structure.output = artifacts
