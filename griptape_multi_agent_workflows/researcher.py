@@ -2,7 +2,7 @@ import os
 import sys
 
 from dotenv import load_dotenv
-from griptape.drivers import GoogleWebSearchDriver
+from griptape.drivers.web_search.google import GoogleWebSearchDriver
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
 from griptape.tools import (

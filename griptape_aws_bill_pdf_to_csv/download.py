@@ -2,7 +2,7 @@ import argparse
 import os
 
 from dotenv import load_dotenv
-from griptape.drivers import GriptapeCloudFileManagerDriver
+from griptape.drivers.file_manager.griptape_cloud import GriptapeCloudFileManagerDriver
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

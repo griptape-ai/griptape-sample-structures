@@ -8,3 +8,5 @@ output
 input
 
 .mise.local.toml
+
+__pycache__

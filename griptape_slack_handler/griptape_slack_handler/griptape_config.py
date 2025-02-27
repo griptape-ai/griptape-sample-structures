@@ -1,8 +1,6 @@
 from griptape.configs import Defaults
-from griptape.drivers import (
-    GriptapeCloudConversationMemoryDriver,
-    GriptapeCloudRulesetDriver,
-)
+from griptape.drivers.memory.conversation.griptape_cloud import GriptapeCloudConversationMemoryDriver
+from griptape.drivers.ruleset.griptape_cloud import GriptapeCloudRulesetDriver
 
 
 def load_griptape_config() -> None:

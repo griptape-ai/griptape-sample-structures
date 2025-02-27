@@ -1,9 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from griptape.drivers import (
-    GriptapeCloudStructureRunDriver,
-)
+from griptape.drivers.structure_run.griptape_cloud import GriptapeCloudStructureRunDriver
 from griptape.structures import Workflow
 from griptape.tasks import PromptTask, StructureRunTask
 from griptape.utils import GriptapeCloudStructure

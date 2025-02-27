@@ -1,6 +1,7 @@
 import logging
 
-from griptape.drivers import DuckDuckGoWebSearchDriver, TrafilaturaWebScraperDriver
+from griptape.drivers.web_scraper.trafilatura import TrafilaturaWebScraperDriver
+from griptape.drivers.web_search.duck_duck_go import DuckDuckGoWebSearchDriver
 from griptape.loaders import WebLoader
 from griptape.rules import Rule
 from griptape.structures import Agent

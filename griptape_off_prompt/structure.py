@@ -4,11 +4,9 @@ import os
 from dotenv import load_dotenv
 from griptape.configs import Defaults
 from griptape.configs.drivers import DriversConfig
-from griptape.drivers import (
-    AnthropicPromptDriver,
-    LocalVectorStoreDriver,
-    OpenAiEmbeddingDriver,
-)
+from griptape.drivers.embedding.openai import OpenAiEmbeddingDriver
+from griptape.drivers.prompt.anthropic import AnthropicPromptDriver
+from griptape.drivers.vector.local import LocalVectorStoreDriver
 from griptape.structures import Agent
 from griptape.tools import PromptSummaryTool, WebScraperTool
 from griptape.utils import GriptapeCloudStructure
