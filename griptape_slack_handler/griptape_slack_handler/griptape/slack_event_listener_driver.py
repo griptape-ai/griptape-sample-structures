@@ -5,7 +5,7 @@ import threading
 from typing import TYPE_CHECKING
 
 from attrs import define, field
-from griptape.drivers import BaseEventListenerDriver
+from griptape.drivers.event_listener import BaseEventListenerDriver
 
 if TYPE_CHECKING:
     from slack_sdk import WebClient

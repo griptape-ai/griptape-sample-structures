@@ -2,11 +2,9 @@ import argparse
 
 from dotenv import load_dotenv
 from griptape.configs import Defaults
-from griptape.drivers import (
-    GriptapeCloudConversationMemoryDriver,
-    GriptapeCloudRulesetDriver,
-    GriptapeCloudVectorStoreDriver,
-)
+from griptape.drivers.memory.conversation.griptape_cloud import GriptapeCloudConversationMemoryDriver
+from griptape.drivers.ruleset.griptape_cloud import GriptapeCloudRulesetDriver
+from griptape.drivers.vector.griptape_cloud import GriptapeCloudVectorStoreDriver
 from griptape.engines.rag import RagEngine
 from griptape.engines.rag.modules import (
     PromptResponseRagModule,

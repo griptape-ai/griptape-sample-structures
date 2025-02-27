@@ -9,9 +9,7 @@ import boto3
 from dotenv import load_dotenv
 from griptape.configs import defaults_config
 from griptape.configs.drivers import DriversConfig
-from griptape.drivers import (
-    AnthropicPromptDriver,
-)
+from griptape.drivers.prompt.anthropic import AnthropicPromptDriver
 from griptape.loaders import CsvLoader
 from griptape.rules import Rule
 from griptape.structures import Agent

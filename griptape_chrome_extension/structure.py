@@ -1,9 +1,7 @@
 import os
 import sys
 
-from griptape.drivers.memory.conversation.griptape_cloud_conversation_memory_driver import (
-    GriptapeCloudConversationMemoryDriver,
-)
+from griptape.drivers.memory.conversation.griptape_cloud import GriptapeCloudConversationMemoryDriver
 from griptape.drivers.prompt.openai import OpenAiChatPromptDriver
 from griptape.memory.structure import ConversationMemory
 from griptape.structures import Agent
