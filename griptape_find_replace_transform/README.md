@@ -34,9 +34,9 @@ You can create a run via the API or the UI. When creating runs in the UI, you wi
 
 ```
 -f
-"Griptape"
+Griptape
 -r
-"Wonderbread"
+Wonderbread
 "This is a find and replace test for the word: Griptape"
 ```
 
@@ -46,9 +46,9 @@ Once created in Griptape Cloud, you can specify this structure on any of your da
 
 ```
 -f
-"Griptape"
+Griptape
 -r
-"Wonderbread"
+Wonderbread
 ```
 
 This goes for any structure you wish to run as a transform. The structure needs to support the first positional argument as a list of `Artifacts` and output a `TextArtifact` or `ListArtifact` (standard for text-based Structures).
