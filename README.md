@@ -19,10 +19,12 @@ Once logged in, you can connect your GitHub account and [create a structure from
 | Model Switcher with Griptape | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_model_switcher) |
 | Griptape Task Memory and Off Prompt | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_off_prompt) |
 | Griptape Chat Memory Agent | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_chat_memory_agent) |
-| Griptape Find and Replace Transform | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_find_replace_transform) |
+| Find and Replace Transform | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_find_replace_transform) |
 | Griptape Filter CSVs | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_csv_filter) |
 | Griptape AWS Bill PDF to CSV | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_aws_bill_pdf_to_csv) |
 | Griptape Slack Handler | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_slack_handler) |
+| Observability in Griptape | [LINK](https://github.com/griptape-ai/griptape-sample-structures/tree/main/griptape_observability) |
+
 
 ## Running Samples
 
