@@ -11,9 +11,7 @@ import pypdf
 from attrs import define
 from dotenv import load_dotenv
 from griptape.artifacts import ListArtifact, TextArtifact
-from griptape.drivers import (
-    GriptapeCloudFileManagerDriver,
-)
+from griptape.drivers.file_manager.griptape_cloud import GriptapeCloudFileManagerDriver
 from griptape.loaders import PdfLoader
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
