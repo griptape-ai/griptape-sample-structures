@@ -8,7 +8,7 @@ You can deploy and run these samples using Griptape Cloud.
 
 To get started with hosting and running a sample on Griptape Cloud, you will first need to [create Griptape Cloud account](https://auth.cloud.griptape.ai/u/login).
 
-Once logged in, you can connect your GitHub account and [create a structure from a repo](https://cloud.griptape.ai/structures) in Griptape Cloud. You can also click the "Deploy to Griptape Cloud" in each of the sub folders in this repo to get started in 2-clicks with a sample.
+Once logged in, you can [create a structure from a sample](https://cloud.griptape.ai/structures/create) in Griptape Cloud. You can also click the "Deploy to Griptape Cloud" in each of the sub folders in this repo to get started in 2-clicks with a specific sample.
 
 ## Table of Contents
 
