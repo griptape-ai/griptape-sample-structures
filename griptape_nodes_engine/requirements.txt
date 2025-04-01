@@ -1,0 +1,5 @@
+python-dotenv==1.0.1
+watchdog==6.0.0
+attrs>=25.3.0
+git+https://github.com/griptape-ai/griptape@main
+git+https://github.com/griptape-ai/griptape-nodes@main

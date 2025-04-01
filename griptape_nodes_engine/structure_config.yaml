@@ -1,0 +1,12 @@
+version: 1.0
+runtime: python3
+runtime_version: 3.13
+build:
+  requirements_file: requirements.txt
+  cache_build_dependencies: # Configures caching (for faster deployments!)
+    enabled: true # Toggles caching
+    watched_files: # List of files that will trigger a full rebuild of the Structure
+      - requirements.txt
+  post_build_install_script: post_build_install_script.sh
+run:
+  main_file: structure.py
