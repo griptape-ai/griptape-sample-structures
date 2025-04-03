@@ -203,6 +203,29 @@ def auto_update() -> None:
         )
 
 
+def print_directories():
+    while True:
+        cwd = os.getcwd()
+        print(f"Current working directory: {cwd}")
+        for item in os.listdir(cwd):
+            item_path = os.path.join(cwd, item)
+            print(item_path)
+
+        dir = os.path.dirname(os.path.abspath(__file__))
+        print(f"Current file directory: {dir}")
+        for item in os.listdir(dir):
+            item_path = os.path.join(dir, item)
+            print(item_path)
+
+        dir = NODES_HOME_DIR
+        print(f"Griptape Nodes home directory: {dir}")
+        for item in os.listdir(dir):
+            item_path = os.path.join(dir, item)
+            print(item_path)
+
+        time.sleep(10)
+
+
 if __name__ == "__main__":
 
     if not API_KEY:
@@ -239,5 +262,8 @@ if __name__ == "__main__":
         target=start_watchdog, args=(event_handler,), daemon=True
     )
     watchdog_thread.start()
+
+    print_thread = threading.Thread(target=print_directories, daemon=True)
+    print_thread.start()
 
     nodes_main()
