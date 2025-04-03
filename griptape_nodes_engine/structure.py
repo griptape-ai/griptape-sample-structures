@@ -205,29 +205,34 @@ def auto_update() -> None:
 
 if __name__ == "__main__":
 
-    auto_update()
+    if not API_KEY:
+        raise ValueError("API_KEY environment variable is not set.")
 
     if not NODES_HOME_DIR.exists():
         NODES_HOME_DIR.mkdir(parents=True, exist_ok=True)
+
+    auto_update()
+
+    node_process = subprocess.run(
+        [
+            "griptape-nodes",
+            "init",
+            "--api-key",
+            API_KEY,
+            "--workspace-directory",
+            str(NODES_HOME_DIR),
+        ],
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+    print(node_process.stdout)
 
     bucket_id = get_bucket_id()
     event_handler = MyHandler(
         bucket_id=bucket_id,
     )
     event_handler.sync_files()
-
-    _init_system_config()
-
-    with open(CONFIG_FILE, "r+") as f:
-        config = f.read()
-        config_json = json.loads(config)
-        config_json["workspace_directory"] = str(NODES_HOME_DIR)
-        f.seek(0)
-        f.write(json.dumps(config_json, indent=4))
-
-    if not API_KEY:
-        raise ValueError("API_KEY environment variable is not set.")
-    set_key(ENV_FILE, "GT_CLOUD_API_KEY", API_KEY)
 
     # Start the watchdog in a separate thread so it doesn't block the main process
     watchdog_thread = threading.Thread(
