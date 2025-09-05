@@ -18,7 +18,7 @@
         ]
     },
     {
-        "name": "Chome Extension Structure",
+        "name": "Chrome Extension Structure",
         "description": "Analyze a webpage with the Griptape Chrome Extension.",
         "folderName": "griptape_chrome_extension",
         "requiredEnv": [
