@@ -9,24 +9,6 @@
         ]
     },
     {
-        "name": "Chat Agent with Memory",
-        "description": "Deploy a customizable Q&A chat agent configured with conversation memory, a ruleset driver, and a knowledge base tool.",
-        "folderName": "griptape_chat_memory_agent",
-        "requiredEnv": [
-            "OPENAI_API_KEY",
-            "GT_CLOUD_API_KEY"
-        ]
-    },
-    {
-        "name": "Chrome Extension Structure",
-        "description": "Analyze a webpage with the Griptape Chrome Extension.",
-        "folderName": "griptape_chrome_extension",
-        "requiredEnv": [
-            "OPENAI_API_KEY",
-            "GT_CLOUD_API_KEY"
-        ]
-    },
-    {
         "name": "Natural Language Spreadsheet Filter",
         "description": "Create a knowledge base from a CSV file, using natural language semantic filtering to select which columns to include.",
         "folderName": "griptape_csv_filter",
